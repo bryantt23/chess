@@ -17,4 +17,19 @@ RSpec.describe View do
       expect { view.show_turn('Black') }.to output("It is Black's turn\n").to_stdout
     end
   end
+
+  describe '#show_board' do
+    it 'prints an 8x8 grid of underscores' do
+      expect { view.show_board }.to output(/_ _ _ _ _ _ _ _/).to_stdout
+    end
+
+    it 'prints row labels 1 and 8 on the left side' do
+      expect { view.show_board }.to output(/1 _ _ _ _ _ _ _ _/).to_stdout
+      expect { view.show_board }.to output(/8 _ _ _ _ _ _ _ _/).to_stdout
+    end
+
+    it 'prints column labels a–h on the bottom' do
+      expect { view.show_board }.to output(/a b c d e f g h\n/).to_stdout
+    end
+  end
 end
