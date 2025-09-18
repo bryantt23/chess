@@ -10,7 +10,7 @@ class View
   def show_board(grid)
     row_num=8
     grid.each do |row| 
-      puts "#{row_num} #{(row.map { |elem| elem==nil ? "_": elem }).join(" ")}"
+      puts "#{row_num} #{(row.map { |elem| elem==nil ? "_": elem.display }).join(" ")}"
       row_num-=1
     end
     puts [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].join(' ')

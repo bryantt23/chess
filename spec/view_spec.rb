@@ -2,6 +2,7 @@
 require 'spec_helper'
 require_relative '../lib/view'
 require_relative '../lib/board'
+require_relative '../lib/pawn'
 
 RSpec.describe View do
   let(:view) { View.new }
@@ -33,6 +34,14 @@ RSpec.describe View do
 
     it 'prints column labels a–h on the bottom' do
       expect { view.show_board(board.grid) }.to output(/a b c d e f g h\n/).to_stdout
+    end
+
+    it 'renders a white pawn at the correct spot (a2)' do
+      pawn = Pawn.new('white')
+      board.grid[6][0] = pawn
+
+      expected_row = "2 WP _ _ _ _ _ _ _\n"  # row label + WP in col a
+      expect { view.show_board(board.grid) }.to output(/#{Regexp.escape(expected_row)}/).to_stdout
     end
   end
 end
