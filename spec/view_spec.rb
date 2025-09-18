@@ -1,6 +1,7 @@
 # spec/view_spec.rb
 require 'spec_helper'
 require_relative '../lib/view'
+require_relative '../lib/board'
 
 RSpec.describe View do
   let(:view) { View.new }
@@ -19,17 +20,19 @@ RSpec.describe View do
   end
 
   describe '#show_board' do
+    let(:board) { Board.new }
+
     it 'prints an 8x8 grid of underscores' do
-      expect { view.show_board }.to output(/_ _ _ _ _ _ _ _/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/_ _ _ _ _ _ _ _/).to_stdout
     end
 
     it 'prints row labels 1 and 8 on the left side' do
-      expect { view.show_board }.to output(/1 _ _ _ _ _ _ _ _/).to_stdout
-      expect { view.show_board }.to output(/8 _ _ _ _ _ _ _ _/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/1 _ _ _ _ _ _ _ _/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/8 _ _ _ _ _ _ _ _/).to_stdout
     end
 
     it 'prints column labels a–h on the bottom' do
-      expect { view.show_board }.to output(/a b c d e f g h\n/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/a b c d e f g h\n/).to_stdout
     end
   end
 end

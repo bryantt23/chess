@@ -7,9 +7,11 @@ class View
     puts "It is #{player}'s turn"
   end
 
-  def show_board
-    8.downto(1) do |row|
-      puts "#{row} #{Array.new(8, '_').join(' ')}"
+  def show_board(grid)
+    row_num=8
+    grid.each do |row| 
+      puts "#{row_num} #{(row.map { |elem| elem==nil ? "_": elem }).join(" ")}"
+      row_num-=1
     end
     puts [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].join(' ')
   end
