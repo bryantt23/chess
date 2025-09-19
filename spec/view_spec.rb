@@ -37,10 +37,10 @@ RSpec.describe View do
     end
 
     it 'renders a white pawn at the correct spot (a2)' do
-      pawn = Pawn.new('white')
+      pawn = Pawn.new('White')
       board.grid[6][0] = pawn
 
-      expected_row = "2 WP _ _ _ _ _ _ _\n"  # row label + WP in col a
+      expected_row = "2 WP _ _ _ _ _ _ _\n" # row label + WP in col a
       expect { view.show_board(board.grid) }.to output(/#{Regexp.escape(expected_row)}/).to_stdout
     end
   end
