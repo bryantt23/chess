@@ -43,5 +43,22 @@ RSpec.describe View do
       expected_row = "2 WP _ _ _ _ _ _ _\n" # row label + WP in col a
       expect { view.show_board(board.grid) }.to output(/#{Regexp.escape(expected_row)}/).to_stdout
     end
+
+    it 'prints the initial chess setup' do
+      board.setup_board
+      expected_output = <<~BOARD
+        8 BR BN BB BQ BK BB BN BR
+        7 BP BP BP BP BP BP BP BP
+        6 _ _ _ _ _ _ _ _
+        5 _ _ _ _ _ _ _ _
+        4 _ _ _ _ _ _ _ _
+        3 _ _ _ _ _ _ _ _
+        2 WP WP WP WP WP WP WP WP
+        1 WR WN WB WQ WK WB WN WR
+          a b c d e f g h
+      BOARD
+
+      expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
+    end
   end
 end
