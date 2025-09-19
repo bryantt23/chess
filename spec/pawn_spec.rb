@@ -1,0 +1,53 @@
+# spec/pawn_spec.rb
+require 'spec_helper'
+require_relative '../lib/pawn'
+
+RSpec.describe Pawn do
+  context 'white pawn' do
+    let(:pawn) { Pawn.new('White') }
+
+    it 'can move forward one square' do
+      expect(pawn.valid_move?([6, 4], [5, 4])).to be true
+    end
+
+    it 'can move forward two squares on first move' do
+      expect(pawn.valid_move?([6, 4], [4, 4])).to be true
+    end
+
+    it 'cannot move backwards' do
+      expect(pawn.valid_move?([5, 4], [6, 4])).to be false
+    end
+
+    it 'cannot move sideways' do
+      expect(pawn.valid_move?([6, 4], [6, 5])).to be false
+    end
+
+    it 'can move diagonally one square (for capture)' do
+      expect(pawn.valid_move?([6, 4], [5, 5])).to be true
+    end
+  end
+
+  context 'black pawn' do
+    let(:pawn) { Pawn.new('Black') }
+
+    it 'can move forward one square' do
+      expect(pawn.valid_move?([1, 4], [2, 4])).to be true
+    end
+
+    it 'can move forward two squares on first move' do
+      expect(pawn.valid_move?([1, 4], [3, 4])).to be true
+    end
+
+    it 'cannot move backwards' do
+      expect(pawn.valid_move?([2, 4], [1, 4])).to be false
+    end
+
+    it 'cannot move sideways' do
+      expect(pawn.valid_move?([1, 4], [1, 5])).to be false
+    end
+
+    it 'can move diagonally one square (for capture)' do
+      expect(pawn.valid_move?([1, 4], [2, 5])).to be true
+    end
+  end
+end
