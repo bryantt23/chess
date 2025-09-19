@@ -15,16 +15,18 @@ class Board
 
   def setup_board
     @grid[0] =
-      [Rook.new('White'), Knight.new('White'), Bishop.new('White'), Queen.new('White'), King.new('White'),
-       Bishop.new('White'), Knight.new('White'), Rook.new('White')]
-    @grid[1].each_with_index do |_elem, index|
-      @grid[1][index] = Pawn.new('White')
-    end
-    @grid[6].each_with_index do |_elem, index|
-      @grid[6][index] = Pawn.new('Black')
-    end
-    @grid[7] =
       [Rook.new('Black'), Knight.new('Black'), Bishop.new('Black'), Queen.new('Black'), King.new('Black'),
        Bishop.new('Black'), Knight.new('Black'), Rook.new('Black')]
+
+    @grid[1].each_with_index do |_elem, index|
+      @grid[1][index] = Pawn.new('Black')
+    end
+
+    @grid[6].each_with_index do |_elem, index|
+      @grid[6][index] = Pawn.new('White')
+    end
+    @grid[7] =
+      [Rook.new('White'), Knight.new('White'), Bishop.new('White'), Queen.new('White'), King.new('White'),
+       Bishop.new('White'), Knight.new('White'), Rook.new('White')]
   end
 end
