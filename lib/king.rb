@@ -7,6 +7,8 @@ class King < Piece
   end
 
   def valid_move?(from, to)
+        return false if from==to
+
     colFrom = from[1]
     rowFrom = from[0]
     rowTo = to[0]

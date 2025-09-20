@@ -7,6 +7,8 @@ class Pawn < Piece
   end
 
   def valid_move?(from, to)
+        return false if from==to
+
     colFrom = from[1]
     colTo = to[1]
     rowFrom = from[0]

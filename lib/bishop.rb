@@ -7,7 +7,7 @@ class Bishop < Piece
   end
 
   def valid_move?(from, to)
-    super(from, to)
+    return false if from==to
 
     colFrom = from[1]
     rowFrom = from[0]

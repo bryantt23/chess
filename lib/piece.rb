@@ -27,13 +27,4 @@ class Piece
     (colFrom == colTo && rowFrom != rowTo) || (colFrom != colTo && rowFrom == rowTo)
   end
 
-  def valid_move?(from, to)
-    colFrom = from[1]
-    rowFrom = from[0]
-    rowTo = to[0]
-    colTo = to[1]
-    return unless colFrom == colTo && rowFrom == rowTo
-
-    false
-  end
 end

@@ -7,6 +7,8 @@ class Rook < Piece
   end
 
   def valid_move?(from, to)
+    return false if from == to
+
     valid_straight?(from, to)
   end
 end
