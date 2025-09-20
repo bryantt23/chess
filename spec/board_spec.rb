@@ -56,5 +56,20 @@ RSpec.describe Board do
       expect(board.grid[5][4].color).to eq('White')
       expect(board.grid[6][4]).to be_nil
     end
+
+    it 'lets white move a pawn and black move a knight' do
+      board.move_piece([6, 4], [5, 4]) # White pawn from e2 → e3
+      board.move_piece([0, 1], [2, 2]) # Black knight from b8 → c6
+
+      # White pawn check
+      expect(board.grid[5][4]).to be_a(Pawn)
+      expect(board.grid[5][4].color).to eq('White')
+      expect(board.grid[6][4]).to be_nil
+
+      # Black knight check
+      expect(board.grid[2][2]).to be_a(Knight)
+      expect(board.grid[2][2].color).to eq('Black')
+      expect(board.grid[0][1]).to be_nil
+    end
   end
 end
