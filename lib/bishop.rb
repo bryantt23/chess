@@ -7,11 +7,13 @@ class Bishop < Piece
   end
 
   def valid_move?(from, to)
+    super(from, to)
+
     colFrom = from[1]
     rowFrom = from[0]
     rowTo = to[0]
     colTo = to[1]
 
-    ((colFrom - colTo).abs == (rowFrom - rowTo).abs) && rowFrom != rowTo && colFrom != colTo
+    valid_diagonal?(from, to) && rowFrom != rowTo && colFrom != colTo
   end
 end

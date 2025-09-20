@@ -7,11 +7,6 @@ class Rook < Piece
   end
 
   def valid_move?(from, to)
-    colFrom = from[1]
-    rowFrom = from[0]
-    rowTo = to[0]
-    colTo = to[1]
-
-    (colFrom == colTo && rowFrom != rowTo) || (colFrom != colTo && rowFrom == rowTo)
+    valid_straight?(from, to)
   end
 end
