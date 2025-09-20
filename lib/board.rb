@@ -29,4 +29,15 @@ class Board
       [Rook.new('White'), Knight.new('White'), Bishop.new('White'), Queen.new('White'), King.new('White'),
        Bishop.new('White'), Knight.new('White'), Rook.new('White')]
   end
+
+  def move_piece(from, to)
+    colFrom = from[1]
+    rowFrom = from[0]
+    rowTo = to[0]
+    colTo = to[1]
+
+    piece = @grid[rowFrom][colFrom]
+    @grid[rowTo][colTo] = piece
+    @grid[rowFrom][colFrom] = nil
+  end
 end

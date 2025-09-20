@@ -61,4 +61,26 @@ RSpec.describe View do
       expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
     end
   end
+
+  describe '#show_board after a pawn moves' do
+    let(:board) { Board.new }
+    it 'prints the full board with the pawn in its new position' do
+      board.setup_board
+      board.move_piece([6, 4], [5, 4]) # White pawn moves forward one
+
+      expected_output = <<~BOARD
+        8 BR BN BB BQ BK BB BN BR
+        7 BP BP BP BP BP BP BP BP
+        6 _ _ _ _ _ _ _ _
+        5 _ _ _ _ _ _ _ _
+        4 _ _ _ _ _ _ _ _
+        3 _ _ _ _ WP _ _ _
+        2 WP WP WP WP _ WP WP WP
+        1 WR WN WB WQ WK WB WN WR
+          a b c d e f g h
+      BOARD
+
+      expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
+    end
+  end
 end

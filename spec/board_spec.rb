@@ -46,4 +46,15 @@ RSpec.describe Board do
       expect(row.map(&:color).uniq).to eq(['White'])
     end
   end
+
+  describe '#move_piece' do
+    before { board.setup_board }
+
+    it 'moves a white pawn forward one square' do
+      board.move_piece([6, 4], [5, 4]) # White pawn at row 6 col 4 → row 5 col 4
+      expect(board.grid[5][4]).to be_a(Pawn)
+      expect(board.grid[5][4].color).to eq('White')
+      expect(board.grid[6][4]).to be_nil
+    end
+  end
 end
