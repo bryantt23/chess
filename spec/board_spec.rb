@@ -80,7 +80,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [4, 7])
 
-      expect(result).to be true
+      expect(result).to eq(:ok)
       expect(board.grid[4][7]).to be_a(Rook)
       expect(board.grid[4][4]).to be_nil
     end
@@ -91,7 +91,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [6, 6])
 
-      expect(result).to be false
+      expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(Rook)
       expect(board.grid[6][6]).to be_nil
     end
@@ -104,7 +104,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [2, 2])
 
-      expect(result).to be true
+      expect(result).to eq(:ok)
       expect(board.grid[2][2]).to be_a(Bishop)
       expect(board.grid[4][4]).to be_nil
     end
@@ -115,7 +115,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [4, 5])
 
-      expect(result).to be false
+      expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(Bishop)
       expect(board.grid[4][5]).to be_nil
     end
@@ -128,7 +128,7 @@ RSpec.describe Board do
 
       result = board.move_piece([3, 3], [6, 6])
 
-      expect(result).to be true
+      expect(result).to eq(:ok)
       expect(board.grid[6][6]).to be_a(Queen)
       expect(board.grid[3][3]).to be_nil
     end
@@ -139,7 +139,7 @@ RSpec.describe Board do
 
       result = board.move_piece([3, 3], [5, 4])
 
-      expect(result).to be false
+      expect(result).to eq(:illegal)
       expect(board.grid[3][3]).to be_a(Queen)
       expect(board.grid[5][4]).to be_nil
     end
@@ -152,7 +152,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [5, 5])
 
-      expect(result).to be true
+      expect(result).to eq(:ok)
       expect(board.grid[5][5]).to be_a(King)
       expect(board.grid[4][4]).to be_nil
     end
@@ -163,7 +163,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [6, 4])
 
-      expect(result).to be false
+      expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(King)
       expect(board.grid[6][4]).to be_nil
     end
@@ -176,7 +176,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [6, 5]) # L-shape
 
-      expect(result).to be true
+      expect(result).to eq(:ok)
       expect(board.grid[6][5]).to be_a(Knight)
       expect(board.grid[4][4]).to be_nil
     end
@@ -187,7 +187,7 @@ RSpec.describe Board do
 
       result = board.move_piece([4, 4], [5, 5])
 
-      expect(result).to be false
+      expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(Knight)
       expect(board.grid[5][5]).to be_nil
     end
@@ -200,7 +200,7 @@ RSpec.describe Board do
 
       result = board.move_piece([6, 4], [5, 4]) # e2 → e3
 
-      expect(result).to be true
+      expect(result).to eq(:ok)
       expect(board.grid[5][4]).to be_a(Pawn)
       expect(board.grid[6][4]).to be_nil
     end
@@ -211,7 +211,7 @@ RSpec.describe Board do
 
       result = board.move_piece([6, 4], [6, 5]) # e2 → f2 (illegal)
 
-      expect(result).to be false
+      expect(result).to eq(:illegal)
       expect(board.grid[6][4]).to be_a(Pawn)
       expect(board.grid[6][5]).to be_nil
     end

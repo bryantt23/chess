@@ -7,8 +7,12 @@ class Queen < Piece
   end
 
   def valid_move?(from, to)
-    return false if from == to
+    return :illegal if from == to
 
-    valid_diagonal?(from, to) || valid_straight?(from, to)
+   if valid_diagonal?(from, to) || valid_straight?(from, to)
+    :ok
+   else
+    :illegal
+   end
   end
 end

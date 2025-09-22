@@ -7,7 +7,7 @@ class Pawn < Piece
   end
 
   def valid_move?(from, to)
-    return false if from == to
+    return :illegal if from == to
 
     colFrom = from[1]
     colTo = to[1]
@@ -15,23 +15,35 @@ class Pawn < Piece
     rowTo = to[0]
     if @color == 'White'
       if rowFrom == rowTo && colFrom != colTo
-        false
+        :illegal
       elsif rowTo > rowFrom
-        false
+        :illegal
       elsif rowFrom == 6
-        rowTo >= 4
+        if rowTo >= 4
+          :ok
+        else
+          :illegal
+        end
+      elsif (rowTo - rowFrom).abs == 1
+        :ok
       else
-        (rowTo - rowFrom).abs == 1
+        :illegal
       end
     elsif @color == 'Black'
       if rowFrom == rowTo && colFrom != colTo
-        false
+        :illegal
       elsif rowTo < rowFrom
-        false
+        :illegal
       elsif rowFrom == 1
-        rowTo <= 3
+        if rowTo <= 3
+          :ok
+        else
+          :illegal
+        end
+      elsif rowTo - rowFrom == 1
+        :ok
       else
-        rowTo - rowFrom == 1
+        :illegal
       end
     end
   end

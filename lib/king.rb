@@ -7,7 +7,7 @@ class King < Piece
   end
 
   def valid_move?(from, to)
-        return false if from==to
+    return :illegal if from == to
 
     colFrom = from[1]
     rowFrom = from[0]
@@ -15,9 +15,11 @@ class King < Piece
     colTo = to[1]
 
     if rowFrom == rowTo && colFrom == colTo
-      false
+      :illegal
+    elsif (colFrom - colTo).abs <= 1 && (rowFrom - rowTo).abs <= 1
+      :ok
     else
-      (colFrom - colTo).abs <= 1 && (rowFrom - rowTo).abs <= 1
+      :illegal
     end
   end
 end

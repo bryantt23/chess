@@ -39,12 +39,12 @@ class Board
     piece = @grid[rowFrom][colFrom]
     valid_move = piece.valid_move?(from, to)
 
-    if valid_move
+    if valid_move == :ok
       @grid[rowTo][colTo] = piece
       @grid[rowFrom][colFrom] = nil
-      true
+      :ok
     else
-      false
+      :illegal
     end
   end
 end

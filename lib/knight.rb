@@ -7,7 +7,7 @@ class Knight < Piece
   end
 
   def valid_move?(from, to)
-    return false if from == to
+    return :illegal if from == to
 
     colFrom = from[1]
     colTo = to[1]
@@ -18,11 +18,17 @@ class Knight < Piece
     rowDist = (rowFrom - rowTo).abs
 
     if rowDist != 1 && colDist != 1
-      false
+      :illegal
     elsif rowDist == 1
-      colDist == 2
+      if colDist == 2
+        :ok
+      else
+        :illegal
+      end
+    elsif rowDist == 2
+      :ok
     else
-      rowDist == 2
+      :illegal
     end
   end
 end

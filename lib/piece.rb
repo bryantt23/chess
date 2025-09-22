@@ -26,5 +26,4 @@ class Piece
 
     (colFrom == colTo && rowFrom != rowTo) || (colFrom != colTo && rowFrom == rowTo)
   end
-
 end
