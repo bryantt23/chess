@@ -72,4 +72,148 @@ RSpec.describe Board do
       expect(board.grid[0][1]).to be_nil
     end
   end
+
+  describe '#move_piece with Rook movement' do
+    it 'allows a valid horizontal move for a rook' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Rook.new('White')
+
+      result = board.move_piece([4, 4], [4, 7])
+
+      expect(result).to be true
+      expect(board.grid[4][7]).to be_a(Rook)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    it 'rejects an invalid diagonal move for a rook' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Rook.new('White')
+
+      result = board.move_piece([4, 4], [6, 6])
+
+      expect(result).to be false
+      expect(board.grid[4][4]).to be_a(Rook)
+      expect(board.grid[6][6]).to be_nil
+    end
+  end
+
+  describe '#move_piece with Bishop movement' do
+    it 'allows a valid diagonal move for a bishop' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+
+      result = board.move_piece([4, 4], [2, 2])
+
+      expect(result).to be true
+      expect(board.grid[2][2]).to be_a(Bishop)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    it 'rejects an invalid straight move for a bishop' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+
+      result = board.move_piece([4, 4], [4, 5])
+
+      expect(result).to be false
+      expect(board.grid[4][4]).to be_a(Bishop)
+      expect(board.grid[4][5]).to be_nil
+    end
+  end
+
+  describe '#move_piece with Queen movement' do
+    it 'allows a valid diagonal move for a queen' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[3][3] = Queen.new('White')
+
+      result = board.move_piece([3, 3], [6, 6])
+
+      expect(result).to be true
+      expect(board.grid[6][6]).to be_a(Queen)
+      expect(board.grid[3][3]).to be_nil
+    end
+
+    it 'rejects an invalid L-shaped move for a queen' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[3][3] = Queen.new('White')
+
+      result = board.move_piece([3, 3], [5, 4])
+
+      expect(result).to be false
+      expect(board.grid[3][3]).to be_a(Queen)
+      expect(board.grid[5][4]).to be_nil
+    end
+  end
+
+  describe '#move_piece with King movement' do
+    it 'allows a valid one-square move for a king' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+
+      result = board.move_piece([4, 4], [5, 5])
+
+      expect(result).to be true
+      expect(board.grid[5][5]).to be_a(King)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    it 'rejects a move more than one square for a king' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+
+      result = board.move_piece([4, 4], [6, 4])
+
+      expect(result).to be false
+      expect(board.grid[4][4]).to be_a(King)
+      expect(board.grid[6][4]).to be_nil
+    end
+  end
+
+  describe '#move_piece with Knight movement' do
+    it 'allows a valid L-shaped move for a knight' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Knight.new('White')
+
+      result = board.move_piece([4, 4], [6, 5]) # L-shape
+
+      expect(result).to be true
+      expect(board.grid[6][5]).to be_a(Knight)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    it 'rejects a diagonal move for a knight' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Knight.new('White')
+
+      result = board.move_piece([4, 4], [5, 5])
+
+      expect(result).to be false
+      expect(board.grid[4][4]).to be_a(Knight)
+      expect(board.grid[5][5]).to be_nil
+    end
+  end
+
+  describe '#move_piece with Pawn movement' do
+    it 'allows a valid one-square forward move for a pawn' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[6][4] = Pawn.new('White') # White pawn at e2
+
+      result = board.move_piece([6, 4], [5, 4]) # e2 → e3
+
+      expect(result).to be true
+      expect(board.grid[5][4]).to be_a(Pawn)
+      expect(board.grid[6][4]).to be_nil
+    end
+
+    it 'rejects a sideways move for a pawn' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[6][4] = Pawn.new('White')
+
+      result = board.move_piece([6, 4], [6, 5]) # e2 → f2 (illegal)
+
+      expect(result).to be false
+      expect(board.grid[6][4]).to be_a(Pawn)
+      expect(board.grid[6][5]).to be_nil
+    end
+  end
 end

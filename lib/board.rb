@@ -37,7 +37,14 @@ class Board
     colTo = to[1]
 
     piece = @grid[rowFrom][colFrom]
-    @grid[rowTo][colTo] = piece
-    @grid[rowFrom][colFrom] = nil
+    valid_move = piece.valid_move?(from, to)
+
+    if valid_move
+      @grid[rowTo][colTo] = piece
+      @grid[rowFrom][colFrom] = nil
+      true
+    else
+      false
+    end
   end
 end
