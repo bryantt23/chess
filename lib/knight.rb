@@ -6,7 +6,7 @@ class Knight < Piece
     @display_name = 'N'
   end
 
-  def valid_move?(from, to)
+  def valid_move?(from, to, _grid = nil)
     return :illegal if from == to
 
     colFrom = from[1]

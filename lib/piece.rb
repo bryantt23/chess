@@ -26,4 +26,8 @@ class Piece
 
     (colFrom == colTo && rowFrom != rowTo) || (colFrom != colTo && rowFrom == rowTo)
   end
+
+  def valid_move?(from, to, grid = nil)
+    raise NotImplementedError, "#{self.class} must implement valid_move?"
+  end
 end

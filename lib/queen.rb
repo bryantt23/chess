@@ -6,13 +6,13 @@ class Queen < Piece
     @display_name = 'Q'
   end
 
-  def valid_move?(from, to)
+  def valid_move?(from, to, _grid = nil)
     return :illegal if from == to
 
-   if valid_diagonal?(from, to) || valid_straight?(from, to)
-    :ok
-   else
-    :illegal
-   end
+    if valid_diagonal?(from, to) || valid_straight?(from, to)
+      :ok
+    else
+      :illegal
+    end
   end
 end

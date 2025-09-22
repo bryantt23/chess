@@ -6,7 +6,7 @@ class Pawn < Piece
     @display_name = 'P'
   end
 
-  def valid_move?(from, to)
+  def valid_move?(from, to, grid=nil)
     return :illegal if from == to
 
     colFrom = from[1]
