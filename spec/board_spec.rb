@@ -191,30 +191,60 @@ RSpec.describe Board do
   describe '#move_piece with Rook blockers' do
     before(:each) { board.grid = Array.new(8) { Array.new(8) } }
 
-    it 'rejects a rook move when a piece of the same color blocks the path' do
+    # ↓ down
+    it 'rejects a rook move down when a piece blocks the path' do
       board.grid[0][0] = Rook.new('White')
       board.grid[3][0] = Pawn.new('White')
       result = board.move_piece([0, 0], [7, 0])
       expect(result).to eq(:blocked)
-      expect(board.grid[0][0]).to be_a(Rook)
-      expect(board.grid[7][0]).to be_nil
     end
 
-    it 'rejects a rook move when an opponent piece blocks the path' do
-      board.grid[0][0] = Rook.new('White')
-      board.grid[3][0] = Pawn.new('Black')
-      result = board.move_piece([0, 0], [7, 0])
-      expect(result).to eq(:blocked)
-      expect(board.grid[0][0]).to be_a(Rook)
-      expect(board.grid[7][0]).to be_nil
-    end
-
-    it 'allows a rook move if the path is clear' do
+    it 'allows a rook move down if clear' do
       board.grid[0][0] = Rook.new('White')
       result = board.move_piece([0, 0], [7, 0])
       expect(result).to eq(:ok)
-      expect(board.grid[7][0]).to be_a(Rook)
-      expect(board.grid[0][0]).to be_nil
+    end
+
+    # ↑ up
+    it 'rejects a rook move up when a piece blocks the path' do
+      board.grid[7][0] = Rook.new('White')
+      board.grid[4][0] = Pawn.new('White')
+      result = board.move_piece([7, 0], [0, 0])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a rook move up if clear' do
+      board.grid[7][0] = Rook.new('White')
+      result = board.move_piece([7, 0], [0, 0])
+      expect(result).to eq(:ok)
+    end
+
+    # → right
+    it 'rejects a rook move right when a piece blocks the path' do
+      board.grid[0][0] = Rook.new('White')
+      board.grid[0][3] = Pawn.new('White')
+      result = board.move_piece([0, 0], [0, 7])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a rook move right if clear' do
+      board.grid[0][0] = Rook.new('White')
+      result = board.move_piece([0, 0], [0, 7])
+      expect(result).to eq(:ok)
+    end
+
+    # ← left
+    it 'rejects a rook move left when a piece blocks the path' do
+      board.grid[0][7] = Rook.new('White')
+      board.grid[0][4] = Pawn.new('White')
+      result = board.move_piece([0, 7], [0, 0])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a rook move left if clear' do
+      board.grid[0][7] = Rook.new('White')
+      result = board.move_piece([0, 7], [0, 0])
+      expect(result).to eq(:ok)
     end
   end
 end

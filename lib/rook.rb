@@ -16,20 +16,34 @@ class Rook < Piece
       colTo = to[1]
 
       if colFrom == colTo
-        min, max = [rowFrom, rowTo].minmax
-        min += 1
-        while min <= max
-          return :blocked if grid[min][colFrom]
+        if rowFrom < rowTo
+          rowFrom += 1
+          while rowFrom <= rowTo
+            return :blocked if grid[rowFrom][colFrom]
 
-          min += 1
+            rowFrom += 1
+          end
+        else
+          rowFrom -= 1
+          while rowTo <= rowFrom
+            return :blocked if grid[rowFrom][colFrom]
+
+            rowFrom -= 1
+          end
+        end
+      elsif colFrom < colTo
+        colFrom += 1
+        while colFrom <= colTo
+          return :blocked if grid[rowFrom][colFrom]
+
+          colFrom += 1
         end
       else
-        min, max = [colFrom, colTo].minmax
-        min += 1
-        while min <= max
-          return :blocked if grid[rowFrom][min]
+        colFrom -= 1
+        while rowTo <= colFrom
+          return :blocked if grid[rowFrom][colFrom]
 
-          min += 1
+          colFrom -= 1
         end
       end
 
