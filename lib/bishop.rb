@@ -6,15 +6,13 @@ class Bishop < Piece
     @display_name = 'B'
   end
 
-  def valid_move?(from, to, _grid = nil)
+  def valid_move?(from, to, grid = nil)
     return :illegal if from == to
 
-    colFrom = from[1]
-    rowFrom = from[0]
-    rowTo = to[0]
-    colTo = to[1]
+    clear_diagonal = clear_diagonal?(from, to, grid)
+    return clear_diagonal if clear_diagonal != :ok
 
-    if valid_diagonal?(from, to) && rowFrom != rowTo && colFrom != colTo
+    if valid_diagonal?(from, to)
       :ok
     else
       :illegal

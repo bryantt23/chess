@@ -247,4 +247,94 @@ RSpec.describe Board do
       expect(result).to eq(:ok)
     end
   end
+
+  describe '#move_piece with Bishop blockers (all directions)' do
+    # ↗ up-right
+    it 'rejects a bishop move up-right when blocked' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+      board.grid[6][6] = Pawn.new('White') # block at g2
+
+      result = board.move_piece([4, 4], [7, 7])
+      expect(result).to eq(:blocked)
+      expect(board.grid[4][4]).to be_a(Bishop)
+      expect(board.grid[7][7]).to be_nil
+    end
+
+    it 'allows a bishop move up-right when clear' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+
+      result = board.move_piece([4, 4], [7, 7])
+      expect(result).to eq(:ok)
+      expect(board.grid[7][7]).to be_a(Bishop)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    # ↖ up-left
+    it 'rejects a bishop move up-left when blocked' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+      board.grid[6][2] = Pawn.new('White')
+
+      result = board.move_piece([4, 4], [7, 1])
+      expect(result).to eq(:blocked)
+      expect(board.grid[4][4]).to be_a(Bishop)
+      expect(board.grid[7][1]).to be_nil
+    end
+
+    it 'allows a bishop move up-left when clear' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+
+      result = board.move_piece([4, 4], [7, 1])
+      expect(result).to eq(:ok)
+      expect(board.grid[7][1]).to be_a(Bishop)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    # ↘ down-right
+    it 'rejects a bishop move down-right when blocked' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+      board.grid[2][6] = Pawn.new('White')
+
+      result = board.move_piece([4, 4], [1, 7])
+      expect(result).to eq(:blocked)
+      expect(board.grid[4][4]).to be_a(Bishop)
+      expect(board.grid[1][7]).to be_nil
+    end
+
+    it 'allows a bishop move down-right when clear' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+
+      result = board.move_piece([4, 4], [1, 7])
+      expect(result).to eq(:ok)
+      expect(board.grid[1][7]).to be_a(Bishop)
+      expect(board.grid[4][4]).to be_nil
+    end
+
+    # ↙ down-left
+    it 'rejects a bishop move down-left when blocked' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+      board.grid[2][2] = Pawn.new('White')
+
+      result = board.move_piece([4, 4], [1, 1])
+      expect(result).to eq(:blocked)
+      expect(board.grid[4][4]).to be_a(Bishop)
+      expect(board.grid[1][1]).to be_nil
+    end
+
+    it 'allows a bishop move down-left when clear' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = Bishop.new('White')
+
+      result = board.move_piece([4, 4], [1, 1])
+      expect(result).to eq(:ok)
+      expect(board.grid[1][1]).to be_a(Bishop)
+      expect(board.grid[4][4]).to be_nil
+    end
+  end
 end
