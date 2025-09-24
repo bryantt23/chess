@@ -337,4 +337,120 @@ RSpec.describe Board do
       expect(board.grid[4][4]).to be_nil
     end
   end
+
+  describe '#move_piece with Queen blockers' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    # Vertical ↓
+    it 'rejects a queen move down when blocked' do
+      board.grid[0][0] = Queen.new('White')
+      board.grid[3][0] = Pawn.new('White')
+      result = board.move_piece([0, 0], [7, 0])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move down if clear' do
+      board.grid[0][0] = Queen.new('White')
+      result = board.move_piece([0, 0], [7, 0])
+      expect(result).to eq(:ok)
+    end
+
+    # Vertical ↑
+    it 'rejects a queen move up when blocked' do
+      board.grid[7][0] = Queen.new('White')
+      board.grid[4][0] = Pawn.new('White')
+      result = board.move_piece([7, 0], [0, 0])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move up if clear' do
+      board.grid[7][0] = Queen.new('White')
+      result = board.move_piece([7, 0], [0, 0])
+      expect(result).to eq(:ok)
+    end
+
+    # Horizontal →
+    it 'rejects a queen move right when blocked' do
+      board.grid[0][0] = Queen.new('White')
+      board.grid[0][3] = Pawn.new('White')
+      result = board.move_piece([0, 0], [0, 7])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move right if clear' do
+      board.grid[0][0] = Queen.new('White')
+      result = board.move_piece([0, 0], [0, 7])
+      expect(result).to eq(:ok)
+    end
+
+    # Horizontal ←
+    it 'rejects a queen move left when blocked' do
+      board.grid[0][7] = Queen.new('White')
+      board.grid[0][4] = Pawn.new('White')
+      result = board.move_piece([0, 7], [0, 0])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move left if clear' do
+      board.grid[0][7] = Queen.new('White')
+      result = board.move_piece([0, 7], [0, 0])
+      expect(result).to eq(:ok)
+    end
+
+    # Diagonal ↘
+    it 'rejects a queen move down-right when blocked' do
+      board.grid[0][0] = Queen.new('White')
+      board.grid[2][2] = Pawn.new('White')
+      result = board.move_piece([0, 0], [3, 3])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move down-right if clear' do
+      board.grid[0][0] = Queen.new('White')
+      result = board.move_piece([0, 0], [3, 3])
+      expect(result).to eq(:ok)
+    end
+
+    # Diagonal ↗
+    it 'rejects a queen move up-right when blocked' do
+      board.grid[7][0] = Queen.new('White')
+      board.grid[5][2] = Pawn.new('White')
+      result = board.move_piece([7, 0], [4, 3])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move up-right if clear' do
+      board.grid[7][0] = Queen.new('White')
+      result = board.move_piece([7, 0], [4, 3])
+      expect(result).to eq(:ok)
+    end
+
+    # Diagonal ↙
+    it 'rejects a queen move down-left when blocked' do
+      board.grid[0][7] = Queen.new('White')
+      board.grid[2][5] = Pawn.new('White')
+      result = board.move_piece([0, 7], [3, 4])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move down-left if clear' do
+      board.grid[0][7] = Queen.new('White')
+      result = board.move_piece([0, 7], [3, 4])
+      expect(result).to eq(:ok)
+    end
+
+    # Diagonal ↖
+    it 'rejects a queen move up-left when blocked' do
+      board.grid[7][7] = Queen.new('White')
+      board.grid[5][5] = Pawn.new('White')
+      result = board.move_piece([7, 7], [4, 4])
+      expect(result).to eq(:blocked)
+    end
+
+    it 'allows a queen move up-left if clear' do
+      board.grid[7][7] = Queen.new('White')
+      result = board.move_piece([7, 7], [4, 4])
+      expect(result).to eq(:ok)
+    end
+  end
 end

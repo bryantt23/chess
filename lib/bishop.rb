@@ -9,10 +9,10 @@ class Bishop < Piece
   def valid_move?(from, to, grid = nil)
     return :illegal if from == to
 
-    clear_diagonal = clear_diagonal?(from, to, grid)
-    return clear_diagonal if clear_diagonal != :ok
-
     if valid_diagonal?(from, to)
+      clear_diagonal = clear_diagonal?(from, to, grid)
+      return clear_diagonal if clear_diagonal != :ok
+
       :ok
     else
       :illegal
