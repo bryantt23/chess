@@ -453,4 +453,90 @@ RSpec.describe Board do
       expect(result).to eq(:ok)
     end
   end
+
+  describe '#move_piece with Pawn blockers' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    context 'white pawns' do
+      it 'rejects a one-square forward move if the square is occupied' do
+        board.grid[6][4] = Pawn.new('White') # e2
+        board.grid[5][4] = Pawn.new('White') # blocking at e3
+
+        result = board.move_piece([6, 4], [5, 4])
+        expect(result).to eq(:blocked)
+        expect(board.grid[6][4]).to be_a(Pawn)
+        expect(board.grid[5][4]).to be_a(Pawn)
+      end
+
+      it 'rejects a two-square forward move if the immediate square is occupied' do
+        board.grid[6][4] = Pawn.new('White')
+        board.grid[5][4] = Pawn.new('Black') # blocking at e3
+
+        result = board.move_piece([6, 4], [4, 4]) # e2 → e4
+        expect(result).to eq(:blocked)
+        expect(board.grid[6][4]).to be_a(Pawn)
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'rejects a two-square forward move if the destination square is occupied' do
+        board.grid[6][4] = Pawn.new('White')
+        board.grid[4][4] = Pawn.new('Black') # blocking at e4
+
+        result = board.move_piece([6, 4], [4, 4]) # e2 → e4
+        expect(result).to eq(:blocked)
+        expect(board.grid[6][4]).to be_a(Pawn)
+        expect(board.grid[4][4]).to be_a(Pawn)
+      end
+
+      it 'allows a two-square forward move if both squares are clear' do
+        board.grid[6][4] = Pawn.new('White')
+
+        result = board.move_piece([6, 4], [4, 4]) # e2 → e4
+        expect(result).to eq(:ok)
+        expect(board.grid[4][4]).to be_a(Pawn)
+        expect(board.grid[6][4]).to be_nil
+      end
+    end
+
+    context 'black pawns' do
+      it 'rejects a one-square forward move if the square is occupied' do
+        board.grid[1][4] = Pawn.new('Black') # e7
+        board.grid[2][4] = Pawn.new('Black') # blocking at e6
+
+        result = board.move_piece([1, 4], [2, 4])
+        expect(result).to eq(:blocked)
+        expect(board.grid[1][4]).to be_a(Pawn)
+        expect(board.grid[2][4]).to be_a(Pawn)
+      end
+
+      it 'rejects a two-square forward move if the immediate square is occupied' do
+        board.grid[1][4] = Pawn.new('Black')
+        board.grid[2][4] = Pawn.new('White') # blocking at e6
+
+        result = board.move_piece([1, 4], [3, 4]) # e7 → e5
+        expect(result).to eq(:blocked)
+        expect(board.grid[1][4]).to be_a(Pawn)
+        expect(board.grid[3][4]).to be_nil
+      end
+
+      it 'rejects a two-square forward move if the destination square is occupied' do
+        board.grid[1][4] = Pawn.new('Black')
+        board.grid[3][4] = Pawn.new('White') # blocking at e5
+
+        result = board.move_piece([1, 4], [3, 4]) # e7 → e5
+        expect(result).to eq(:blocked)
+        expect(board.grid[1][4]).to be_a(Pawn)
+        expect(board.grid[3][4]).to be_a(Pawn)
+      end
+
+      it 'allows a two-square forward move if both squares are clear' do
+        board.grid[1][4] = Pawn.new('Black')
+
+        result = board.move_piece([1, 4], [3, 4]) # e7 → e5
+        expect(result).to eq(:ok)
+        expect(board.grid[3][4]).to be_a(Pawn)
+        expect(board.grid[1][4]).to be_nil
+      end
+    end
+  end
 end

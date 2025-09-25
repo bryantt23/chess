@@ -6,7 +6,7 @@ class Pawn < Piece
     @display_name = 'P'
   end
 
-  def valid_move?(from, to, grid=nil)
+  def valid_move?(from, to, grid = nil)
     return :illegal if from == to
 
     colFrom = from[1]
@@ -20,12 +20,22 @@ class Pawn < Piece
         :illegal
       elsif rowFrom == 6
         if rowTo >= 4
+          rowFrom -= 1
+          while rowFrom >= rowTo
+            return :blocked unless grid[rowFrom][colFrom].nil?
+
+            rowFrom -= 1
+          end
           :ok
         else
           :illegal
         end
       elsif (rowTo - rowFrom).abs == 1
-        :ok
+        if grid[rowTo][colTo].nil?
+          :ok
+        else
+          :blocked
+        end
       else
         :illegal
       end
@@ -36,12 +46,24 @@ class Pawn < Piece
         :illegal
       elsif rowFrom == 1
         if rowTo <= 3
+
+          rowFrom += 1
+          while rowFrom <= rowTo
+            return :blocked unless grid[rowFrom][colFrom].nil?
+
+            rowFrom += 1
+          end
+
           :ok
         else
           :illegal
         end
       elsif rowTo - rowFrom == 1
-        :ok
+        if grid[rowTo][colTo].nil?
+          :ok
+        else
+          :blocked
+        end
       else
         :illegal
       end
