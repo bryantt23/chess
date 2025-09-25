@@ -6,7 +6,7 @@ class King < Piece
     @display_name = 'K'
   end
 
-  def valid_move?(from, to, _grid = nil)
+  def valid_move?(from, to, grid = nil)
     return :illegal if from == to
 
     colFrom = from[1]
@@ -17,7 +17,12 @@ class King < Piece
     if rowFrom == rowTo && colFrom == colTo
       :illegal
     elsif (colFrom - colTo).abs <= 1 && (rowFrom - rowTo).abs <= 1
-      :ok
+      destination = grid[rowTo][colTo]
+      if !destination.nil? && destination.color == color
+        :blocked
+      else
+        :ok
+      end
     else
       :illegal
     end
