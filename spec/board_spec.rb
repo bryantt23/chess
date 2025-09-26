@@ -635,4 +635,96 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#move_piece when destination occupied by same color' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    context 'White pieces' do
+      it 'rejects rook moving onto same-color piece' do
+        board.grid[0][0] = Rook.new('White')
+        board.grid[0][7] = Pawn.new('White')
+        result = board.move_piece([0, 0], [0, 7])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects bishop moving onto same-color piece' do
+        board.grid[0][0] = Bishop.new('White')
+        board.grid[3][3] = Pawn.new('White')
+        result = board.move_piece([0, 0], [3, 3])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects queen moving onto same-color piece' do
+        board.grid[0][0] = Queen.new('White')
+        board.grid[0][5] = Pawn.new('White')
+        result = board.move_piece([0, 0], [0, 5])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects knight moving onto same-color piece' do
+        board.grid[4][4] = Knight.new('White')
+        board.grid[6][5] = Pawn.new('White')
+        result = board.move_piece([4, 4], [6, 5])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects king moving onto same-color piece' do
+        board.grid[4][4] = King.new('White')
+        board.grid[5][5] = Pawn.new('White')
+        result = board.move_piece([4, 4], [5, 5])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects pawn moving forward onto same-color piece' do
+        board.grid[6][4] = Pawn.new('White')
+        board.grid[5][4] = Pawn.new('White')
+        result = board.move_piece([6, 4], [5, 4])
+        expect(result).to eq(:blocked)
+      end
+    end
+
+    context 'Black pieces' do
+      it 'rejects rook moving onto same-color piece' do
+        board.grid[0][0] = Rook.new('Black')
+        board.grid[0][7] = Pawn.new('Black')
+        result = board.move_piece([0, 0], [0, 7])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects bishop moving onto same-color piece' do
+        board.grid[0][0] = Bishop.new('Black')
+        board.grid[3][3] = Pawn.new('Black')
+        result = board.move_piece([0, 0], [3, 3])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects queen moving onto same-color piece' do
+        board.grid[0][0] = Queen.new('Black')
+        board.grid[0][5] = Pawn.new('Black')
+        result = board.move_piece([0, 0], [0, 5])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects knight moving onto same-color piece' do
+        board.grid[4][4] = Knight.new('Black')
+        board.grid[6][5] = Pawn.new('Black')
+        result = board.move_piece([4, 4], [6, 5])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects king moving onto same-color piece' do
+        board.grid[4][4] = King.new('Black')
+        board.grid[5][5] = Pawn.new('Black')
+        result = board.move_piece([4, 4], [5, 5])
+        expect(result).to eq(:blocked)
+      end
+
+      it 'rejects pawn moving forward onto same-color piece' do
+        board.grid[1][4] = Pawn.new('Black')
+        board.grid[2][4] = Pawn.new('Black')
+        result = board.move_piece([1, 4], [2, 4])
+        expect(result).to eq(:blocked)
+      end
+    end
+  end
 end

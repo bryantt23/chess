@@ -6,7 +6,7 @@ class Knight < Piece
     @display_name = 'N'
   end
 
-  def valid_move?(from, to, _grid = nil)
+  def valid_move?(from, to, grid = nil)
     return :illegal if from == to
 
     colFrom = from[1]
@@ -21,12 +21,26 @@ class Knight < Piece
       :illegal
     elsif rowDist == 1
       if colDist == 2
-        :ok
+        dest_square = grid[rowTo][colTo]
+        if dest_square.nil?
+          :ok
+        elsif dest_square.color == color
+          :blocked
+        else
+          :capture
+        end
       else
         :illegal
       end
     elsif rowDist == 2
-      :ok
+      dest_square = grid[rowTo][colTo]
+      if dest_square.nil?
+        :ok
+      elsif dest_square.color == color
+        :blocked
+      else
+        :capture
+      end
     else
       :illegal
     end
