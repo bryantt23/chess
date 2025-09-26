@@ -88,14 +88,14 @@ class Piece
     if colFrom == colTo
       if rowFrom < rowTo
         rowFrom += 1
-        while rowFrom <= rowTo
+        while rowFrom < rowTo
           return :blocked if grid[rowFrom][colFrom]
 
           rowFrom += 1
         end
       else
         rowFrom -= 1
-        while rowTo <= rowFrom
+        while rowTo < rowFrom
           return :blocked if grid[rowFrom][colFrom]
 
           rowFrom -= 1
@@ -103,19 +103,26 @@ class Piece
       end
     elsif colFrom < colTo
       colFrom += 1
-      while colFrom <= colTo
+      while colFrom < colTo
         return :blocked if grid[rowFrom][colFrom]
 
         colFrom += 1
       end
     else
       colFrom -= 1
-      while rowTo <= colFrom
+      while rowTo < colFrom
         return :blocked if grid[rowFrom][colFrom]
 
         colFrom -= 1
       end
     end
-    :ok
+    destination_square = grid[rowTo][colTo]
+    if destination_square.nil?
+      :ok
+    elsif destination_square.color == color
+      :blocked
+    else
+      :capture
+    end
   end
 end
