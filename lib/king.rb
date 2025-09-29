@@ -17,11 +17,13 @@ class King < Piece
     if rowFrom == rowTo && colFrom == colTo
       :illegal
     elsif (colFrom - colTo).abs <= 1 && (rowFrom - rowTo).abs <= 1
-      destination = grid[rowTo][colTo]
-      if !destination.nil? && destination.color == color
+      destination_square = grid[rowTo][colTo]
+      if destination_square.nil?
+        :ok
+      elsif destination_square.color == color
         :blocked
       else
-        :ok
+        :capture
       end
     else
       :illegal
