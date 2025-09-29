@@ -1290,4 +1290,54 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#move_piece with Knight captures' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    context 'White knight capturing Black pieces' do
+      it 'captures in an L-shape (2 up, 1 left)' do
+        board.grid[4][4] = Knight.new('White')
+        board.grid[2][3] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [2, 3])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][3]).to be_a(Knight)
+        expect(board.grid[2][3].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'rejects capturing same-color piece' do
+        board.grid[4][4] = Knight.new('White')
+        board.grid[2][3] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [2, 3])
+        expect(result).to eq(:blocked)
+        expect(board.grid[4][4]).to be_a(Knight)
+        expect(board.grid[2][3]).to be_a(Pawn)
+      end
+    end
+
+    context 'Black knight capturing White pieces' do
+      it 'captures in an L-shape (2 up, 1 right)' do
+        board.grid[4][4] = Knight.new('Black')
+        board.grid[2][5] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [2, 5])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][5]).to be_a(Knight)
+        expect(board.grid[2][5].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'rejects capturing same-color piece' do
+        board.grid[4][4] = Knight.new('Black')
+        board.grid[2][5] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [2, 5])
+        expect(result).to eq(:blocked)
+        expect(board.grid[4][4]).to be_a(Knight)
+        expect(board.grid[2][5]).to be_a(Pawn)
+      end
+    end
+  end
 end
