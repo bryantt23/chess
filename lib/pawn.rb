@@ -31,7 +31,16 @@ class Pawn < Piece
           :illegal
         end
       elsif (rowTo - rowFrom).abs == 1
-        if grid[rowTo][colTo].nil?
+        if (colFrom - colTo).abs == 1
+          destination_square = grid[rowTo][colTo]
+          if destination_square.nil?
+            :ok
+          elsif destination_square.color == color
+            :blocked
+          else
+            :capture
+          end
+        elsif grid[rowTo][colTo].nil?
           :ok
         else
           :blocked
@@ -59,7 +68,16 @@ class Pawn < Piece
           :illegal
         end
       elsif rowTo - rowFrom == 1
-        if grid[rowTo][colTo].nil?
+        if (colFrom - colTo).abs == 1
+          destination_square = grid[rowTo][colTo]
+          if destination_square.nil?
+            :ok
+          elsif destination_square.color == color
+            :blocked
+          else
+            :capture
+          end
+        elsif grid[rowTo][colTo].nil?
           :ok
         else
           :blocked

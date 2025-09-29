@@ -1198,4 +1198,96 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#move_piece with Pawn captures' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    context 'White pawn capturing' do
+      it 'captures diagonally left (up-left)' do
+        board.grid[4][4] = Pawn.new('White')
+        board.grid[3][3] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [3, 3])
+        expect(result).to eq(:capture)
+        expect(board.grid[3][3]).to be_a(Pawn)
+        expect(board.grid[3][3].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures diagonally right (up-right)' do
+        board.grid[4][4] = Pawn.new('White')
+        board.grid[3][5] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [3, 5])
+        expect(result).to eq(:capture)
+        expect(board.grid[3][5]).to be_a(Pawn)
+        expect(board.grid[3][5].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'rejects capturing diagonally left onto same-color piece' do
+        board.grid[4][4] = Pawn.new('White')
+        board.grid[3][3] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [3, 3])
+        expect(result).to eq(:blocked)
+        expect(board.grid[4][4]).to be_a(Pawn)
+        expect(board.grid[3][3]).to be_a(Pawn)
+      end
+
+      it 'rejects capturing diagonally right onto same-color piece' do
+        board.grid[4][4] = Pawn.new('White')
+        board.grid[3][5] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [3, 5])
+        expect(result).to eq(:blocked)
+        expect(board.grid[4][4]).to be_a(Pawn)
+        expect(board.grid[3][5]).to be_a(Pawn)
+      end
+    end
+
+    context 'Black pawn capturing' do
+      it 'captures diagonally left (down-left)' do
+        board.grid[3][3] = Pawn.new('Black')
+        board.grid[4][2] = Pawn.new('White')
+
+        result = board.move_piece([3, 3], [4, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[4][2]).to be_a(Pawn)
+        expect(board.grid[4][2].color).to eq('Black')
+        expect(board.grid[3][3]).to be_nil
+      end
+
+      it 'captures diagonally right (down-right)' do
+        board.grid[3][3] = Pawn.new('Black')
+        board.grid[4][4] = Pawn.new('White')
+
+        result = board.move_piece([3, 3], [4, 4])
+        expect(result).to eq(:capture)
+        expect(board.grid[4][4]).to be_a(Pawn)
+        expect(board.grid[4][4].color).to eq('Black')
+        expect(board.grid[3][3]).to be_nil
+      end
+
+      it 'rejects capturing diagonally left onto same-color piece' do
+        board.grid[3][3] = Pawn.new('Black')
+        board.grid[4][2] = Pawn.new('Black')
+
+        result = board.move_piece([3, 3], [4, 2])
+        expect(result).to eq(:blocked)
+        expect(board.grid[3][3]).to be_a(Pawn)
+        expect(board.grid[4][2]).to be_a(Pawn)
+      end
+
+      it 'rejects capturing diagonally right onto same-color piece' do
+        board.grid[3][3] = Pawn.new('Black')
+        board.grid[4][4] = Pawn.new('Black')
+
+        result = board.move_piece([3, 3], [4, 4])
+        expect(result).to eq(:blocked)
+        expect(board.grid[3][3]).to be_a(Pawn)
+        expect(board.grid[4][4]).to be_a(Pawn)
+      end
+    end
+  end
 end
