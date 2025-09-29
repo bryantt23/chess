@@ -727,4 +727,100 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#move_piece with Bishop captures' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    context 'White bishop capturing Black pieces' do
+      it 'captures up-right' do
+        board.grid[4][4] = Bishop.new('White')
+        board.grid[6][6] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [6, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][6]).to be_a(Bishop)
+        expect(board.grid[6][6].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures up-left' do
+        board.grid[4][4] = Bishop.new('White')
+        board.grid[6][2] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [6, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][2]).to be_a(Bishop)
+        expect(board.grid[6][2].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-right' do
+        board.grid[4][4] = Bishop.new('White')
+        board.grid[2][6] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [2, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][6]).to be_a(Bishop)
+        expect(board.grid[2][6].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-left' do
+        board.grid[4][4] = Bishop.new('White')
+        board.grid[2][2] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [2, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][2]).to be_a(Bishop)
+        expect(board.grid[2][2].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+    end
+
+    context 'Black bishop capturing White pieces' do
+      it 'captures up-right' do
+        board.grid[4][4] = Bishop.new('Black')
+        board.grid[6][6] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [6, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][6]).to be_a(Bishop)
+        expect(board.grid[6][6].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures up-left' do
+        board.grid[4][4] = Bishop.new('Black')
+        board.grid[6][2] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [6, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][2]).to be_a(Bishop)
+        expect(board.grid[6][2].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-right' do
+        board.grid[4][4] = Bishop.new('Black')
+        board.grid[2][6] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [2, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][6]).to be_a(Bishop)
+        expect(board.grid[2][6].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-left' do
+        board.grid[4][4] = Bishop.new('Black')
+        board.grid[2][2] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [2, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][2]).to be_a(Bishop)
+        expect(board.grid[2][2].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+    end
+  end
 end

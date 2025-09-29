@@ -41,7 +41,7 @@ class Piece
       if rowFrom < rowTo
         rowFrom += 1
         colFrom += 1
-        while rowFrom <= rowTo
+        while rowFrom < rowTo
           return :blocked if grid[rowFrom][colFrom]
 
           rowFrom += 1
@@ -50,7 +50,7 @@ class Piece
       else
         rowFrom -= 1
         colFrom += 1
-        while rowFrom >= rowTo
+        while rowFrom > rowTo
           return :blocked if grid[rowFrom][colFrom]
 
           rowFrom -= 1
@@ -60,7 +60,7 @@ class Piece
     elsif rowFrom < rowTo # go left
       rowFrom += 1
       colFrom -= 1
-      while rowFrom <= rowTo
+      while rowFrom < rowTo
         return :blocked if grid[rowFrom][colFrom]
 
         rowFrom += 1
@@ -69,14 +69,22 @@ class Piece
     else
       rowFrom -= 1
       colFrom -= 1
-      while rowFrom >= rowTo
+      while rowFrom > rowTo
         return :blocked if grid[rowFrom][colFrom]
 
         rowFrom -= 1
         colFrom -= 1
       end
     end
-    :ok
+
+    destination_square = grid[rowTo][colTo]
+    if destination_square.nil?
+      :ok
+    elsif destination_square.color == color
+      :blocked
+    else
+      :capture
+    end
   end
 
   def clear_straight?(from, to, grid)
