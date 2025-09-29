@@ -823,4 +823,188 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe '#move_piece with Queen captures' do
+    before(:each) { board.grid = Array.new(8) { Array.new(8) } }
+
+    context 'White queen capturing Black pieces' do
+      it 'captures up' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[1][4] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [1, 4])
+        expect(result).to eq(:capture)
+        expect(board.grid[1][4]).to be_a(Queen)
+        expect(board.grid[1][4].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[6][4] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [6, 4])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][4]).to be_a(Queen)
+        expect(board.grid[6][4].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures left' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[4][1] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [4, 1])
+        expect(result).to eq(:capture)
+        expect(board.grid[4][1]).to be_a(Queen)
+        expect(board.grid[4][1].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures right' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[4][7] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [4, 7])
+        expect(result).to eq(:capture)
+        expect(board.grid[4][7]).to be_a(Queen)
+        expect(board.grid[4][7].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures up-right' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[6][6] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [6, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][6]).to be_a(Queen)
+        expect(board.grid[6][6].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures up-left' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[6][2] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [6, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][2]).to be_a(Queen)
+        expect(board.grid[6][2].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-right' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[2][6] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [2, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][6]).to be_a(Queen)
+        expect(board.grid[2][6].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-left' do
+        board.grid[4][4] = Queen.new('White')
+        board.grid[2][2] = Pawn.new('Black')
+
+        result = board.move_piece([4, 4], [2, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][2]).to be_a(Queen)
+        expect(board.grid[2][2].color).to eq('White')
+        expect(board.grid[4][4]).to be_nil
+      end
+    end
+
+    context 'Black queen capturing White pieces' do
+      it 'captures up' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[1][4] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [1, 4])
+        expect(result).to eq(:capture)
+        expect(board.grid[1][4]).to be_a(Queen)
+        expect(board.grid[1][4].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[6][4] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [6, 4])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][4]).to be_a(Queen)
+        expect(board.grid[6][4].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures left' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[4][1] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [4, 1])
+        expect(result).to eq(:capture)
+        expect(board.grid[4][1]).to be_a(Queen)
+        expect(board.grid[4][1].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures right' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[4][7] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [4, 7])
+        expect(result).to eq(:capture)
+        expect(board.grid[4][7]).to be_a(Queen)
+        expect(board.grid[4][7].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures up-right' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[6][6] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [6, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][6]).to be_a(Queen)
+        expect(board.grid[6][6].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures up-left' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[6][2] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [6, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[6][2]).to be_a(Queen)
+        expect(board.grid[6][2].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-right' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[2][6] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [2, 6])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][6]).to be_a(Queen)
+        expect(board.grid[2][6].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+
+      it 'captures down-left' do
+        board.grid[4][4] = Queen.new('Black')
+        board.grid[2][2] = Pawn.new('White')
+
+        result = board.move_piece([4, 4], [2, 2])
+        expect(result).to eq(:capture)
+        expect(board.grid[2][2]).to be_a(Queen)
+        expect(board.grid[2][2].color).to eq('Black')
+        expect(board.grid[4][4]).to be_nil
+      end
+    end
+  end
 end
