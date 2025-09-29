@@ -23,13 +23,13 @@ RSpec.describe View do
   describe '#show_board' do
     let(:board) { Board.new }
 
-    it 'prints an 8x8 grid of underscores' do
-      expect { view.show_board(board.grid) }.to output(/_ _ _ _ _ _ _ _/).to_stdout
+    it 'prints an 8x8 grid of double underscores' do
+      expect { view.show_board(board.grid) }.to output(/__ __ __ __ __ __ __ __/).to_stdout
     end
 
     it 'prints row labels 1 and 8 on the left side' do
-      expect { view.show_board(board.grid) }.to output(/1 _ _ _ _ _ _ _ _/).to_stdout
-      expect { view.show_board(board.grid) }.to output(/8 _ _ _ _ _ _ _ _/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/1 __ __ __ __ __ __ __ __/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/8 __ __ __ __ __ __ __ __/).to_stdout
     end
 
     it 'prints column labels a–h on the bottom' do
@@ -40,7 +40,7 @@ RSpec.describe View do
       pawn = Pawn.new('White')
       board.grid[6][0] = pawn
 
-      expected_row = "2 WP _ _ _ _ _ _ _\n" # row label + WP in col a
+      expected_row = "2 WP __ __ __ __ __ __ __\n" # row label + WP in col a
       expect { view.show_board(board.grid) }.to output(/#{Regexp.escape(expected_row)}/).to_stdout
     end
 
@@ -49,10 +49,10 @@ RSpec.describe View do
       expected_output = <<~BOARD
         8 BR BN BB BQ BK BB BN BR
         7 BP BP BP BP BP BP BP BP
-        6 _ _ _ _ _ _ _ _
-        5 _ _ _ _ _ _ _ _
-        4 _ _ _ _ _ _ _ _
-        3 _ _ _ _ _ _ _ _
+        6 __ __ __ __ __ __ __ __
+        5 __ __ __ __ __ __ __ __
+        4 __ __ __ __ __ __ __ __
+        3 __ __ __ __ __ __ __ __
         2 WP WP WP WP WP WP WP WP
         1 WR WN WB WQ WK WB WN WR
           a b c d e f g h
@@ -71,11 +71,11 @@ RSpec.describe View do
       expected_output = <<~BOARD
         8 BR BN BB BQ BK BB BN BR
         7 BP BP BP BP BP BP BP BP
-        6 _ _ _ _ _ _ _ _
-        5 _ _ _ _ _ _ _ _
-        4 _ _ _ _ _ _ _ _
-        3 _ _ _ _ WP _ _ _
-        2 WP WP WP WP _ WP WP WP
+        6 __ __ __ __ __ __ __ __
+        5 __ __ __ __ __ __ __ __
+        4 __ __ __ __ __ __ __ __
+        3 __ __ __ __ WP __ __ __
+        2 WP WP WP WP __ WP WP WP
         1 WR WN WB WQ WK WB WN WR
           a b c d e f g h
       BOARD
@@ -93,13 +93,13 @@ RSpec.describe View do
       board.move_piece([0, 1], [2, 2]) # Black knight b8 → c6
 
       expected_output = <<~BOARD
-        8 BR _ BB BQ BK BB BN BR
+        8 BR __ BB BQ BK BB BN BR
         7 BP BP BP BP BP BP BP BP
-        6 _ _ BN _ _ _ _ _
-        5 _ _ _ _ _ _ _ _
-        4 _ _ _ _ _ _ _ _
-        3 _ _ _ _ WP _ _ _
-        2 WP WP WP WP _ WP WP WP
+        6 __ __ BN __ __ __ __ __
+        5 __ __ __ __ __ __ __ __
+        4 __ __ __ __ __ __ __ __
+        3 __ __ __ __ WP __ __ __
+        2 WP WP WP WP __ WP WP WP
         1 WR WN WB WQ WK WB WN WR
           a b c d e f g h
       BOARD

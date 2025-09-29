@@ -21,14 +21,14 @@ RSpec.describe 'Integration: simple all-piece-types sequence' do
     board.move_piece([7, 4], [6, 4]) # 9) White:  e1 -> e2 (KING)
 
     expected_output = <<~BOARD
-      8 _ BN BB _ BK BB BN BR
+      8 __ BN BB __ BK BB BN BR
       7 BR BP BP BQ BP BP BP BP
-      6 BP _ _ BP _ _ _ _
-      5 _ _ _ _ _ _ _ _
-      4 _ _ WB _ _ _ _ _
-      3 _ _ _ WP WP WN _ _
-      2 WP WP WP _ WK WP WP WP
-      1 WR WN WB WQ _ _ _ WR
+      6 BP __ __ BP __ __ __ __
+      5 __ __ __ __ __ __ __ __
+      4 __ __ WB __ __ __ __ __
+      3 __ __ __ WP WP WN __ __
+      2 WP WP WP __ WK WP WP WP
+      1 WR WN WB WQ __ __ __ WR
         a b c d e f g h
     BOARD
 
@@ -53,12 +53,12 @@ RSpec.describe 'Integration: simple all-piece-types sequence' do
 
     expected_output = <<~BOARD
       8 BR BN BB BQ BK BB BN BR
-      7 BP BP BP _ BP BP BP BP
-      6 _ _ _ _ _ _ _ _
-      5 _ _ _ WP _ _ _ _
-      4 _ _ _ _ _ _ _ _
-      3 _ _ _ _ _ _ _ _
-      2 WP WP WP WP _ WP WP WP
+      7 BP BP BP __ BP BP BP BP
+      6 __ __ __ __ __ __ __ __
+      5 __ __ __ WP __ __ __ __
+      4 __ __ __ __ __ __ __ __
+      3 __ __ __ __ __ __ __ __
+      2 WP WP WP WP __ WP WP WP
       1 WR WN WB WQ WK WB WN WR
         a b c d e f g h
     BOARD
