@@ -48,4 +48,23 @@ class Board
 
     result
   end
+
+  def is_check?(color)
+    king_location = []
+    @grid.each_with_index do |row, row_index|
+      row.each_with_index do  |col, col_index|
+        piece = col
+        king_location = [row_index, col_index] if !piece.nil? && piece.color == color && piece.is_a?(King)
+      end
+    end
+
+    @grid.each_with_index do |row, row_index|
+      row.each_with_index do |_col, col_index|
+        piece = grid[row_index][col_index]
+        next unless !piece.nil? && piece.color != color
+        return true if piece.valid_move?([row_index, col_index], king_location, @grid) == :capture
+      end
+    end
+    false
+  end
 end
