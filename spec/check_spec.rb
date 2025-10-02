@@ -399,3 +399,53 @@ RSpec.describe 'Check detection: Knight' do
     end
   end
 end
+
+RSpec.describe 'Check detection: Pawn' do
+  let(:board) { Board.new }
+
+  context 'White king in danger' do
+    it 'detects check from a black pawn diagonally up-left' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')    # e4
+      board.grid[3][3] = Pawn.new('Black')    # d5
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from a black pawn diagonally up-right' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[3][5] = Pawn.new('Black')    # f5
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'does not detect check from black pawn directly above' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[3][4] = Pawn.new('Black')    # e5 forward only
+      expect(board.is_check?('White')).to be false
+    end
+  end
+
+  context 'Black king in danger' do
+    it 'detects check from a white pawn diagonally down-left' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')    # e4
+      board.grid[5][3] = Pawn.new('White')    # d3
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'detects check from a white pawn diagonally down-right' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[5][5] = Pawn.new('White')    # f3
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'does not detect check from white pawn directly below' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[5][4] = Pawn.new('White')    # e3 forward only
+      expect(board.is_check?('Black')).to be false
+    end
+  end
+end
