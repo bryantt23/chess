@@ -5,6 +5,8 @@ require_relative '../lib/rook'
 require_relative '../lib/king'
 require_relative '../lib/bishop'
 require_relative '../lib/pawn'
+require_relative '../lib/knight'
+require_relative '../lib/queen'
 
 RSpec.describe 'Check detection with Rooks' do
   let(:board) { Board.new }
@@ -340,6 +342,60 @@ RSpec.describe Board do
         board.grid[2][1] = Queen.new('White') # b6, not aligned
         expect(board.is_check?('Black')).to be false
       end
+    end
+  end
+end
+
+RSpec.describe 'Check detection: Knight' do
+  let(:board) { Board.new }
+
+  context 'White king in danger' do
+    it 'detects check from all 8 knight positions' do
+      knight_moves = [
+        [2, 3], [2, 5],   # 2 up, 1 left/right
+        [6, 3], [6, 5],   # 2 down, 1 left/right
+        [3, 2], [5, 2],   # 2 left, 1 up/down
+        [3, 6], [5, 6]    # 2 right, 1 up/down
+      ]
+
+      knight_moves.each do |pos|
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')   # e4
+        board.grid[pos[0]][pos[1]] = Knight.new('Black')
+        expect(board.is_check?('White')).to be true
+      end
+    end
+
+    it 'does not detect check if knight is not in L-shape' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[4][6] = Knight.new('Black')   # straight line, invalid
+      expect(board.is_check?('White')).to be false
+    end
+  end
+
+  context 'Black king in danger' do
+    it 'detects check from all 8 knight positions' do
+      knight_moves = [
+        [2, 3], [2, 5],
+        [6, 3], [6, 5],
+        [3, 2], [5, 2],
+        [3, 6], [5, 6]
+      ]
+
+      knight_moves.each do |pos|
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('Black')   # e4
+        board.grid[pos[0]][pos[1]] = Knight.new('White')
+        expect(board.is_check?('Black')).to be true
+      end
+    end
+
+    it 'does not detect check if knight is too far' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[0][0] = Knight.new('White')   # corner, far away
+      expect(board.is_check?('Black')).to be false
     end
   end
 end
