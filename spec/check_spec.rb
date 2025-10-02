@@ -449,3 +449,121 @@ RSpec.describe 'Check detection: Pawn' do
     end
   end
 end
+
+RSpec.describe 'Check detection: King vs King' do
+  let(:board) { Board.new }
+
+  context 'White king in danger from Black king' do
+    it 'detects check from top' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')   # e4
+      board.grid[3][4] = King.new('Black')   # e5
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from bottom' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[5][4] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from left' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[4][3] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from right' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[4][5] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from top-left diagonal' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[3][3] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from top-right diagonal' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[3][5] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from bottom-left diagonal' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[5][3] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'detects check from bottom-right diagonal' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[5][5] = King.new('Black')
+      expect(board.is_check?('White')).to be true
+    end
+
+    it 'does not detect check if Black king is two squares away' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('White')
+      board.grid[2][4] = King.new('Black')
+      expect(board.is_check?('White')).to be false
+    end
+  end
+
+  context 'Black king in danger from White king' do
+    it 'detects check from top' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[3][4] = King.new('White')
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'detects check from bottom' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[5][4] = King.new('White')
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'detects check from left' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[4][3] = King.new('White')
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'detects check from right' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[4][5] = King.new('White')
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'detects check from diagonals' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[3][3] = King.new('White')
+      expect(board.is_check?('Black')).to be true
+
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[5][5] = King.new('White')
+      expect(board.is_check?('Black')).to be true
+    end
+
+    it 'does not detect check if White king is two squares away' do
+      board.grid = Array.new(8) { Array.new(8) }
+      board.grid[4][4] = King.new('Black')
+      board.grid[6][4] = King.new('White')
+      expect(board.is_check?('Black')).to be false
+    end
+  end
+end
