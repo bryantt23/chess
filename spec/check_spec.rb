@@ -191,3 +191,155 @@ RSpec.describe 'Check detection with bishops' do
     end
   end
 end
+
+RSpec.describe Board do
+  let(:board) { Board.new }
+
+  describe '#is_check? with Queen' do
+    context 'when White king is checked by Black queen' do
+      it 'detects check from above' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White') # e4
+        board.grid[0][4] = Queen.new('Black') # e8
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from below' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[7][4] = Queen.new('Black') # e1
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from left' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[4][0] = Queen.new('Black') # a4
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from right' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[4][7] = Queen.new('Black') # h4
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from top-left diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[0][0] = Queen.new('Black') # a8
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from top-right diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[1][7] = Queen.new('Black') # h8
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from bottom-left diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[7][1] = Queen.new('Black') # b1
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'detects check from bottom-right diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[7][7] = Queen.new('Black') # h1
+        expect(board.is_check?('White')).to be true
+      end
+
+      it 'does not detect check if blocked by another piece' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[0][4] = Queen.new('Black') # e8
+        board.grid[2][4] = Pawn.new('Black')  # block
+        expect(board.is_check?('White')).to be false
+      end
+
+      it 'does not detect check if queen is misaligned' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[4][4] = King.new('White')
+        board.grid[0][3] = Queen.new('Black') # d8, not aligned
+        expect(board.is_check?('White')).to be false
+      end
+    end
+
+    context 'when Black king is checked by White queen' do
+      it 'detects check from above' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')  # d5
+        board.grid[0][3] = Queen.new('White') # d8
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from below' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[7][3] = Queen.new('White') # d1
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from left' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[3][0] = Queen.new('White') # a5
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from right' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[3][7] = Queen.new('White') # h5
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from top-left diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[0][0] = Queen.new('White') # a8
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from top-right diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[0][6] = Queen.new('White') # g8
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from bottom-left diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[6][0] = Queen.new('White')
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'detects check from bottom-right diagonal' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[7][7] = Queen.new('White') # h1
+        expect(board.is_check?('Black')).to be true
+      end
+
+      it 'does not detect check if blocked by another piece' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[7][3] = Queen.new('White') # d1
+        board.grid[5][3] = Pawn.new('White')  # block
+        expect(board.is_check?('Black')).to be false
+      end
+
+      it 'does not detect check if queen is misaligned' do
+        board.grid = Array.new(8) { Array.new(8) }
+        board.grid[3][3] = King.new('Black')
+        board.grid[2][1] = Queen.new('White') # b6, not aligned
+        expect(board.is_check?('Black')).to be false
+      end
+    end
+  end
+end
