@@ -15,8 +15,8 @@ RSpec.describe View do
 
   describe '#show_turn' do
     it 'prints whose turn it is' do
-      expect { view.show_turn('White') }.to output("It is White's turn\n").to_stdout
-      expect { view.show_turn('Black') }.to output("It is Black's turn\n").to_stdout
+      expect { view.show_turn('White') }.to output("It is White's turn. Player White enter your move.\n").to_stdout
+      expect { view.show_turn('Black') }.to output("It is Black's turn. Player Black enter your move.\n").to_stdout
     end
   end
 

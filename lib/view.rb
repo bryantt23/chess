@@ -4,7 +4,7 @@ class View
   end
 
   def show_turn(player)
-    puts "It is #{player.capitalize}'s turn"
+    puts "It is #{player.capitalize}'s turn. Player #{player.capitalize} enter your move."
   end
 
   def show_board(grid)
