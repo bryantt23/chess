@@ -29,7 +29,7 @@ RSpec.describe 'Integration: simple all-piece-types sequence' do
       3 __ __ __ WP WP WN __ __
       2 WP WP WP __ WK WP WP WP
       1 WR WN WB WQ __ __ __ WR
-        a b c d e f g h
+        a  b  c  d  e  f  g  h
     BOARD
 
     expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
@@ -60,7 +60,7 @@ RSpec.describe 'Integration: simple all-piece-types sequence' do
       3 __ __ __ __ __ __ __ __
       2 WP WP WP WP __ WP WP WP
       1 WR WN WB WQ WK WB WN WR
-        a b c d e f g h
+        a  b  c  d  e  f  g  h
     BOARD
 
     expect { view.show_board(board.grid) }.to output(expected_output).to_stdout

@@ -4,7 +4,7 @@ class View
   end
 
   def show_turn(player)
-    puts "It is #{player}'s turn"
+    puts "It is #{player.capitalize}'s turn"
   end
 
   def show_board(grid)
@@ -13,6 +13,6 @@ class View
       puts "#{row_num} #{row.map { |elem| elem.nil? ? '__' : elem.display }.join(' ')}"
       row_num -= 1
     end
-    puts [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].join(' ')
+    puts ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].join('  ')
   end
 end

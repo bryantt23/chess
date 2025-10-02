@@ -33,7 +33,7 @@ RSpec.describe View do
     end
 
     it 'prints column labels a–h on the bottom' do
-      expect { view.show_board(board.grid) }.to output(/a b c d e f g h\n/).to_stdout
+      expect { view.show_board(board.grid) }.to output(/a\s+b\s+c\s+d\s+e\s+f\s+g\s+h\n/).to_stdout
     end
 
     it 'renders a white pawn at the correct spot (a2)' do
@@ -55,7 +55,7 @@ RSpec.describe View do
         3 __ __ __ __ __ __ __ __
         2 WP WP WP WP WP WP WP WP
         1 WR WN WB WQ WK WB WN WR
-          a b c d e f g h
+          a  b  c  d  e  f  g  h
       BOARD
 
       expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
@@ -77,7 +77,7 @@ RSpec.describe View do
         3 __ __ __ __ WP __ __ __
         2 WP WP WP WP __ WP WP WP
         1 WR WN WB WQ WK WB WN WR
-          a b c d e f g h
+          a  b  c  d  e  f  g  h
       BOARD
 
       expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
@@ -101,7 +101,7 @@ RSpec.describe View do
         3 __ __ __ __ WP __ __ __
         2 WP WP WP WP __ WP WP WP
         1 WR WN WB WQ WK WB WN WR
-          a b c d e f g h
+          a  b  c  d  e  f  g  h
       BOARD
 
       expect { view.show_board(board.grid) }.to output(expected_output).to_stdout
