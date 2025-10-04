@@ -21,18 +21,21 @@ class GameEngine
   def play_turn
     @view.show_board(@board.grid)
     @view.show_turn(@current_turn)
-    move(get_input)
+    player_move = get_input
+    return nil if player_move.nil? || player_move.strip.downcase == 'exit'
+
+    move(player_move)
   end
 
   def move(player_move)
     parsed_move = Parser.parse_move(player_move)
     @board.move_piece(parsed_move[0], parsed_move[1])
-
     @current_turn = @current_turn == :white ? :black : :white
+    play_turn
   end
 
   def get_input
-    gets.chomp
+    $stdin.gets&.chomp
   end
 end
 
@@ -40,5 +43,3 @@ end
 # view = View.new
 # engine = GameEngine.new(board, view)
 # engine.new_game
-
-# engine.move('e2 e4')
