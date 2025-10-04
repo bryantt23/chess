@@ -33,6 +33,7 @@ RSpec.describe GameEngine do
       ).to_stdout
     end
   end
+
   # 2️⃣ ONE WHITE MOVE
   describe '#new_game' do
     it 'shows final board after White moves e2 e4 and stops' do
@@ -86,6 +87,38 @@ RSpec.describe GameEngine do
 
       expect(output).to include(expected_final_output)
       expect(output).to end_with("White to move. Enter your move:\n")
+    end
+  end
+
+  # 4️⃣ INVALID WHITE MOVE
+  describe '#new_game' do
+    it 'shows error and re-prompts when White makes an invalid first move' do
+      # White tries illegal move then exits
+      $stdin = StringIO.new("e2 e5\nexit\n")
+
+      expect { engine.new_game }.to output(
+        a_string_including(
+          'White to move. Enter your move:',
+          'Invalid move. Try again.',
+          'White to move. Enter your move:'
+        )
+      ).to_stdout
+    end
+  end
+
+  # 5️⃣ INVALID FORMAT (BAD INPUT)
+  describe '#new_game' do
+    it 'shows format error when White enters badly formatted move' do
+      # White types nonsense, then exits
+      $stdin = StringIO.new("hello\nexit\n")
+
+      expect { engine.new_game }.to output(
+        a_string_including(
+          'White to move. Enter your move:',
+          "Invalid format. Please use moves like 'e2 e4'.",
+          'White to move. Enter your move:'
+        )
+      ).to_stdout
     end
   end
 end

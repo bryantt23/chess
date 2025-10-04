@@ -10,7 +10,9 @@ class Parser
 
   # Converts "e2 e4" into [[row1,col1], [row2,col2]]
   def self.parse_move(input)
-    from, to = input.strip.split(" ")
+    return :invalid_format unless input.match?(/\A[a-hA-H][1-8]\s[a-hA-H][1-8]\z/)
+
+    from, to = input.strip.split(' ')
     [coord_to_index(from), coord_to_index(to)]
   end
 end

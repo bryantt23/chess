@@ -15,4 +15,12 @@ class View
     end
     puts ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].join('  ')
   end
+
+  def illegal_move
+    puts 'Invalid move. Try again.'
+  end
+
+  def invalid_format
+    puts "Invalid format. Please use moves like 'e2 e4'."
+  end
 end

@@ -29,8 +29,16 @@ class GameEngine
 
   def move(player_move)
     parsed_move = Parser.parse_move(player_move)
-    @board.move_piece(parsed_move[0], parsed_move[1])
-    @current_turn = @current_turn == :white ? :black : :white
+    if parsed_move == :invalid_format
+      @view.invalid_format
+    else
+      result = @board.move_piece(parsed_move[0], parsed_move[1])
+      if result == :illegal
+        @view.illegal_move
+      else
+        @current_turn = @current_turn == :white ? :black : :white
+      end
+    end
     play_turn
   end
 
