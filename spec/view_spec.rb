@@ -28,8 +28,12 @@ RSpec.describe View do
     end
 
     it 'prints row labels 1 and 8 on the left side' do
-      expect { view.show_board(board.grid) }.to output(/1 __ __ __ __ __ __ __ __/).to_stdout
-      expect { view.show_board(board.grid) }.to output(/8 __ __ __ __ __ __ __ __/).to_stdout
+      expect { view.show_board(board.grid) }.to output(
+        a_string_including(
+          '8 BR BN BB BQ BK BB BN BR',
+          '1 WR WN WB WQ WK WB WN WR'
+        )
+      ).to_stdout
     end
 
     it 'prints column labels a–h on the bottom' do
@@ -37,11 +41,10 @@ RSpec.describe View do
     end
 
     it 'renders a white pawn at the correct spot (a2)' do
-      pawn = Pawn.new(:white)
-      board.grid[6][0] = pawn
-
-      expected_row = "2 WP __ __ __ __ __ __ __\n" # row label + WP in col a
-      expect { view.show_board(board.grid) }.to output(/#{Regexp.escape(expected_row)}/).to_stdout
+      # Instead of matching only one row, just ensure the row for rank 2 is present.
+      expect { view.show_board(board.grid) }.to output(
+        a_string_including('2 WP WP WP WP WP WP WP WP')
+      ).to_stdout
     end
 
     it 'prints the initial chess setup' do

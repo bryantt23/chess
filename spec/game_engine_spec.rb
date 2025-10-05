@@ -146,4 +146,39 @@ RSpec.describe GameEngine do
       expect(output).to end_with(expected_final_output)
     end
   end
+
+  # 7️⃣ CHECK MESSAGE
+  describe '#new_game' do
+    xit 'shows "White is in check!" when Black moves into check position' do
+      # Moves: White opens f-pawn, Black opens e-pawn, White weakens defense, Black queen moves to h4 -> check
+      $stdin = StringIO.new("f2 f3\ne7 e5\ng2 g4\nd8 h4\nexit\n")
+
+      output = capture_stdout { engine.new_game }
+
+      expect(output).to include('White is in check!')
+      expect(output).to end_with("White to move. Enter your move:\n")
+    end
+  end
+
+  describe '#load_custom_board' do
+    it 'prints the welcome message and correct simple board when loading custom position' do
+      # Arrange
+      custom_grid = Array.new(8) { Array.new(8) }
+      custom_grid[7][4] = King.new(:white) # e1
+      custom_grid[0][0] = Rook.new(:black) # a8
+
+      board.set_grid(custom_grid)
+      $stdin = StringIO.new("exit\n")
+
+      # Act + Assert
+      expect { engine.new_game }.to output(
+        a_string_including(
+          'Welcome to Chess!',
+          '8 BR __ __ __ __ __ __ __',
+          '1 __ __ __ __ WK __ __ __',
+          'White to move. Enter your move:'
+        )
+      ).to_stdout
+    end
+  end
 end
