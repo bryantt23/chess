@@ -121,4 +121,29 @@ RSpec.describe GameEngine do
       ).to_stdout
     end
   end
+
+  # 6️⃣ WHITE PAWN CAPTURES BLACK PAWN
+  describe '#new_game' do
+    it 'shows correct final board after White Pawn captures Black Pawn' do
+      # Sequence: White pawn forward, Black pawn forward, White captures
+      $stdin = StringIO.new("e2 e4\nd7 d5\ne4 d5\nexit\n")
+
+      expected_final_output = <<~BOARD
+        8 BR BN BB BQ BK BB BN BR
+        7 BP BP BP __ BP BP BP BP
+        6 __ __ __ __ __ __ __ __
+        5 __ __ __ WP __ __ __ __
+        4 __ __ __ __ __ __ __ __
+        3 __ __ __ __ __ __ __ __
+        2 WP WP WP WP __ WP WP WP
+        1 WR WN WB WQ WK WB WN WR
+          a  b  c  d  e  f  g  h
+        Black to move. Enter your move:
+      BOARD
+
+      output = capture_stdout { engine.new_game }
+
+      expect(output).to end_with(expected_final_output)
+    end
+  end
 end
