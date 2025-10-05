@@ -13,7 +13,7 @@ class Pawn < Piece
     colTo = to[1]
     rowFrom = from[0]
     rowTo = to[0]
-    if @color == 'White'
+    if @color == :white
       if rowFrom == rowTo && colFrom != colTo
         :illegal
       elsif rowTo > rowFrom
@@ -48,7 +48,7 @@ class Pawn < Piece
       else
         :illegal
       end
-    elsif @color == 'Black'
+    elsif @color == :black
       if rowFrom == rowTo && colFrom != colTo
         :illegal
       elsif rowTo < rowFrom

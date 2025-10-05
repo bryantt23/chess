@@ -19,19 +19,19 @@ class Board
 
   def setup_board
     @grid[0] =
-      [Rook.new('Black'), Knight.new('Black'), Bishop.new('Black'), Queen.new('Black'), King.new('Black'),
-       Bishop.new('Black'), Knight.new('Black'), Rook.new('Black')]
+      [Rook.new(:black), Knight.new(:black), Bishop.new(:black), Queen.new(:black), King.new(:black),
+       Bishop.new(:black), Knight.new(:black), Rook.new(:black)]
 
     @grid[1].each_with_index do |_elem, index|
-      @grid[1][index] = Pawn.new('Black')
+      @grid[1][index] = Pawn.new(:black)
     end
 
     @grid[6].each_with_index do |_elem, index|
-      @grid[6][index] = Pawn.new('White')
+      @grid[6][index] = Pawn.new(:white)
     end
     @grid[7] =
-      [Rook.new('White'), Knight.new('White'), Bishop.new('White'), Queen.new('White'), King.new('White'),
-       Bishop.new('White'), Knight.new('White'), Rook.new('White')]
+      [Rook.new(:white), Knight.new(:white), Bishop.new(:white), Queen.new(:white), King.new(:white),
+       Bishop.new(:white), Knight.new(:white), Rook.new(:white)]
   end
 
   def move_piece(from, to)

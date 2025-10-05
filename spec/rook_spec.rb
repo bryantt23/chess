@@ -3,7 +3,7 @@ require 'spec_helper'
 require_relative '../lib/rook'
 
 RSpec.describe Rook do
-  let(:rook) { Rook.new('White') }
+  let(:rook) { Rook.new(:white) }
   empty_grid = Array.new(8) { Array.new(8) }
 
   it 'can move vertically any number of squares' do

@@ -3,7 +3,7 @@ require 'spec_helper'
 require_relative '../lib/queen'
 
 RSpec.describe Queen do
-  let(:queen) { Queen.new('White') }
+  let(:queen) { Queen.new(:white) }
   let(:empty_grid) { Array.new(8) { Array.new(8) } }
 
   context 'valid moves' do

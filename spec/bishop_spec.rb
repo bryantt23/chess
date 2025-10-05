@@ -3,7 +3,7 @@ require 'spec_helper'
 require_relative '../lib/bishop'
 
 RSpec.describe Bishop do
-  let(:bishop) { Bishop.new('White') }
+  let(:bishop) { Bishop.new(:white) }
   let(:empty_grid) { Array.new(8) { Array.new(8) } }
 
   context 'valid moves' do

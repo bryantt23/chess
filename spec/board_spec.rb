@@ -18,7 +18,7 @@ RSpec.describe Board do
       (0..7).each do |col|
         piece = board.grid[1][col]
         expect(piece).to be_a(Pawn)
-        expect(piece.color).to eq('Black')
+        expect(piece.color).to eq(:black)
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Board do
       (0..7).each do |col|
         piece = board.grid[6][col]
         expect(piece).to be_a(Pawn)
-        expect(piece.color).to eq('White')
+        expect(piece.color).to eq(:white)
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe Board do
       expect(row.map(&:class)).to eq(
         [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
       )
-      expect(row.map(&:color).uniq).to eq(['Black'])
+      expect(row.map(&:color).uniq).to eq([:black])
     end
 
     it 'places white major pieces on row 8' do
@@ -43,7 +43,7 @@ RSpec.describe Board do
       expect(row.map(&:class)).to eq(
         [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
       )
-      expect(row.map(&:color).uniq).to eq(['White'])
+      expect(row.map(&:color).uniq).to eq([:white])
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe Board do
     it 'moves a white pawn forward one square' do
       board.move_piece([6, 4], [5, 4])
       expect(board.grid[5][4]).to be_a(Pawn)
-      expect(board.grid[5][4].color).to eq('White')
+      expect(board.grid[5][4].color).to eq(:white)
       expect(board.grid[6][4]).to be_nil
     end
 
@@ -74,7 +74,7 @@ RSpec.describe Board do
     end
 
     it 'allows a valid horizontal move for a rook' do
-      board.grid[4][4] = Rook.new('White')
+      board.grid[4][4] = Rook.new(:white)
       result = board.move_piece([4, 4], [4, 7])
       expect(result).to eq(:ok)
       expect(board.grid[4][7]).to be_a(Rook)
@@ -82,7 +82,7 @@ RSpec.describe Board do
     end
 
     it 'rejects an invalid diagonal move for a rook' do
-      board.grid[4][4] = Rook.new('White')
+      board.grid[4][4] = Rook.new(:white)
       result = board.move_piece([4, 4], [6, 6])
       expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(Rook)
@@ -96,7 +96,7 @@ RSpec.describe Board do
     end
 
     it 'allows a valid diagonal move for a bishop' do
-      board.grid[4][4] = Bishop.new('White')
+      board.grid[4][4] = Bishop.new(:white)
       result = board.move_piece([4, 4], [2, 2])
       expect(result).to eq(:ok)
       expect(board.grid[2][2]).to be_a(Bishop)
@@ -104,7 +104,7 @@ RSpec.describe Board do
     end
 
     it 'rejects an invalid straight move for a bishop' do
-      board.grid[4][4] = Bishop.new('White')
+      board.grid[4][4] = Bishop.new(:white)
       result = board.move_piece([4, 4], [4, 5])
       expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(Bishop)
@@ -118,7 +118,7 @@ RSpec.describe Board do
     end
 
     it 'allows a valid diagonal move for a queen' do
-      board.grid[3][3] = Queen.new('White')
+      board.grid[3][3] = Queen.new(:white)
       result = board.move_piece([3, 3], [6, 6])
       expect(result).to eq(:ok)
       expect(board.grid[6][6]).to be_a(Queen)
@@ -126,7 +126,7 @@ RSpec.describe Board do
     end
 
     it 'rejects an invalid L-shaped move for a queen' do
-      board.grid[3][3] = Queen.new('White')
+      board.grid[3][3] = Queen.new(:white)
       result = board.move_piece([3, 3], [5, 4])
       expect(result).to eq(:illegal)
       expect(board.grid[3][3]).to be_a(Queen)
@@ -140,7 +140,7 @@ RSpec.describe Board do
     end
 
     it 'allows a valid one-square move for a king' do
-      board.grid[4][4] = King.new('White')
+      board.grid[4][4] = King.new(:white)
       result = board.move_piece([4, 4], [5, 5])
       expect(result).to eq(:ok)
       expect(board.grid[5][5]).to be_a(King)
@@ -148,7 +148,7 @@ RSpec.describe Board do
     end
 
     it 'rejects a move more than one square for a king' do
-      board.grid[4][4] = King.new('White')
+      board.grid[4][4] = King.new(:white)
       result = board.move_piece([4, 4], [6, 4])
       expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(King)
@@ -162,7 +162,7 @@ RSpec.describe Board do
     end
 
     it 'allows a valid L-shaped move for a knight' do
-      board.grid[4][4] = Knight.new('White')
+      board.grid[4][4] = Knight.new(:white)
       result = board.move_piece([4, 4], [6, 5])
       expect(result).to eq(:ok)
       expect(board.grid[6][5]).to be_a(Knight)
@@ -170,7 +170,7 @@ RSpec.describe Board do
     end
 
     it 'rejects a diagonal move for a knight' do
-      board.grid[4][4] = Knight.new('White')
+      board.grid[4][4] = Knight.new(:white)
       result = board.move_piece([4, 4], [5, 5])
       expect(result).to eq(:illegal)
       expect(board.grid[4][4]).to be_a(Knight)
@@ -184,7 +184,7 @@ RSpec.describe Board do
     end
 
     it 'allows a valid one-square forward move for a pawn' do
-      board.grid[6][4] = Pawn.new('White')
+      board.grid[6][4] = Pawn.new(:white)
       result = board.move_piece([6, 4], [5, 4])
       expect(result).to eq(:ok)
       expect(board.grid[5][4]).to be_a(Pawn)
@@ -192,7 +192,7 @@ RSpec.describe Board do
     end
 
     it 'rejects a sideways move for a pawn' do
-      board.grid[6][4] = Pawn.new('White')
+      board.grid[6][4] = Pawn.new(:white)
       result = board.move_piece([6, 4], [6, 5])
       expect(result).to eq(:illegal)
       expect(board.grid[6][4]).to be_a(Pawn)
@@ -207,56 +207,56 @@ RSpec.describe Board do
 
     # ↓ down
     it 'rejects a rook move down when a piece blocks the path' do
-      board.grid[0][0] = Rook.new('White')
-      board.grid[3][0] = Pawn.new('White')
+      board.grid[0][0] = Rook.new(:white)
+      board.grid[3][0] = Pawn.new(:white)
       result = board.move_piece([0, 0], [7, 0])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a rook move down if clear' do
-      board.grid[0][0] = Rook.new('White')
+      board.grid[0][0] = Rook.new(:white)
       result = board.move_piece([0, 0], [7, 0])
       expect(result).to eq(:ok)
     end
 
     # ↑ up
     it 'rejects a rook move up when a piece blocks the path' do
-      board.grid[7][0] = Rook.new('White')
-      board.grid[4][0] = Pawn.new('White')
+      board.grid[7][0] = Rook.new(:white)
+      board.grid[4][0] = Pawn.new(:white)
       result = board.move_piece([7, 0], [0, 0])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a rook move up if clear' do
-      board.grid[7][0] = Rook.new('White')
+      board.grid[7][0] = Rook.new(:white)
       result = board.move_piece([7, 0], [0, 0])
       expect(result).to eq(:ok)
     end
 
     # → right
     it 'rejects a rook move right when a piece blocks the path' do
-      board.grid[0][0] = Rook.new('White')
-      board.grid[0][3] = Pawn.new('White')
+      board.grid[0][0] = Rook.new(:white)
+      board.grid[0][3] = Pawn.new(:white)
       result = board.move_piece([0, 0], [0, 7])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a rook move right if clear' do
-      board.grid[0][0] = Rook.new('White')
+      board.grid[0][0] = Rook.new(:white)
       result = board.move_piece([0, 0], [0, 7])
       expect(result).to eq(:ok)
     end
 
     # ← left
     it 'rejects a rook move left when a piece blocks the path' do
-      board.grid[0][7] = Rook.new('White')
-      board.grid[0][4] = Pawn.new('White')
+      board.grid[0][7] = Rook.new(:white)
+      board.grid[0][4] = Pawn.new(:white)
       result = board.move_piece([0, 7], [0, 0])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a rook move left if clear' do
-      board.grid[0][7] = Rook.new('White')
+      board.grid[0][7] = Rook.new(:white)
       result = board.move_piece([0, 7], [0, 0])
       expect(result).to eq(:ok)
     end
@@ -266,8 +266,8 @@ RSpec.describe Board do
     # ↗ up-right
     it 'rejects a bishop move up-right when blocked' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
-      board.grid[6][6] = Pawn.new('White') # block at g2
+      board.grid[4][4] = Bishop.new(:white)
+      board.grid[6][6] = Pawn.new(:white) # block at g2
 
       result = board.move_piece([4, 4], [7, 7])
       expect(result).to eq(:blocked)
@@ -277,7 +277,7 @@ RSpec.describe Board do
 
     it 'allows a bishop move up-right when clear' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
+      board.grid[4][4] = Bishop.new(:white)
 
       result = board.move_piece([4, 4], [7, 7])
       expect(result).to eq(:ok)
@@ -288,8 +288,8 @@ RSpec.describe Board do
     # ↖ up-left
     it 'rejects a bishop move up-left when blocked' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
-      board.grid[6][2] = Pawn.new('White')
+      board.grid[4][4] = Bishop.new(:white)
+      board.grid[6][2] = Pawn.new(:white)
 
       result = board.move_piece([4, 4], [7, 1])
       expect(result).to eq(:blocked)
@@ -299,7 +299,7 @@ RSpec.describe Board do
 
     it 'allows a bishop move up-left when clear' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
+      board.grid[4][4] = Bishop.new(:white)
 
       result = board.move_piece([4, 4], [7, 1])
       expect(result).to eq(:ok)
@@ -310,8 +310,8 @@ RSpec.describe Board do
     # ↘ down-right
     it 'rejects a bishop move down-right when blocked' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
-      board.grid[2][6] = Pawn.new('White')
+      board.grid[4][4] = Bishop.new(:white)
+      board.grid[2][6] = Pawn.new(:white)
 
       result = board.move_piece([4, 4], [1, 7])
       expect(result).to eq(:blocked)
@@ -321,7 +321,7 @@ RSpec.describe Board do
 
     it 'allows a bishop move down-right when clear' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
+      board.grid[4][4] = Bishop.new(:white)
 
       result = board.move_piece([4, 4], [1, 7])
       expect(result).to eq(:ok)
@@ -332,8 +332,8 @@ RSpec.describe Board do
     # ↙ down-left
     it 'rejects a bishop move down-left when blocked' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
-      board.grid[2][2] = Pawn.new('White')
+      board.grid[4][4] = Bishop.new(:white)
+      board.grid[2][2] = Pawn.new(:white)
 
       result = board.move_piece([4, 4], [1, 1])
       expect(result).to eq(:blocked)
@@ -343,7 +343,7 @@ RSpec.describe Board do
 
     it 'allows a bishop move down-left when clear' do
       board.set_grid(Array.new(8) { Array.new(8) })
-      board.grid[4][4] = Bishop.new('White')
+      board.grid[4][4] = Bishop.new(:white)
 
       result = board.move_piece([4, 4], [1, 1])
       expect(result).to eq(:ok)
@@ -359,112 +359,112 @@ RSpec.describe Board do
 
     # Vertical ↓
     it 'rejects a queen move down when blocked' do
-      board.grid[0][0] = Queen.new('White')
-      board.grid[3][0] = Pawn.new('White')
+      board.grid[0][0] = Queen.new(:white)
+      board.grid[3][0] = Pawn.new(:white)
       result = board.move_piece([0, 0], [7, 0])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move down if clear' do
-      board.grid[0][0] = Queen.new('White')
+      board.grid[0][0] = Queen.new(:white)
       result = board.move_piece([0, 0], [7, 0])
       expect(result).to eq(:ok)
     end
 
     # Vertical ↑
     it 'rejects a queen move up when blocked' do
-      board.grid[7][0] = Queen.new('White')
-      board.grid[4][0] = Pawn.new('White')
+      board.grid[7][0] = Queen.new(:white)
+      board.grid[4][0] = Pawn.new(:white)
       result = board.move_piece([7, 0], [0, 0])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move up if clear' do
-      board.grid[7][0] = Queen.new('White')
+      board.grid[7][0] = Queen.new(:white)
       result = board.move_piece([7, 0], [0, 0])
       expect(result).to eq(:ok)
     end
 
     # Horizontal →
     it 'rejects a queen move right when blocked' do
-      board.grid[0][0] = Queen.new('White')
-      board.grid[0][3] = Pawn.new('White')
+      board.grid[0][0] = Queen.new(:white)
+      board.grid[0][3] = Pawn.new(:white)
       result = board.move_piece([0, 0], [0, 7])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move right if clear' do
-      board.grid[0][0] = Queen.new('White')
+      board.grid[0][0] = Queen.new(:white)
       result = board.move_piece([0, 0], [0, 7])
       expect(result).to eq(:ok)
     end
 
     # Horizontal ←
     it 'rejects a queen move left when blocked' do
-      board.grid[0][7] = Queen.new('White')
-      board.grid[0][4] = Pawn.new('White')
+      board.grid[0][7] = Queen.new(:white)
+      board.grid[0][4] = Pawn.new(:white)
       result = board.move_piece([0, 7], [0, 0])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move left if clear' do
-      board.grid[0][7] = Queen.new('White')
+      board.grid[0][7] = Queen.new(:white)
       result = board.move_piece([0, 7], [0, 0])
       expect(result).to eq(:ok)
     end
 
     # Diagonal ↘
     it 'rejects a queen move down-right when blocked' do
-      board.grid[0][0] = Queen.new('White')
-      board.grid[2][2] = Pawn.new('White')
+      board.grid[0][0] = Queen.new(:white)
+      board.grid[2][2] = Pawn.new(:white)
       result = board.move_piece([0, 0], [3, 3])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move down-right if clear' do
-      board.grid[0][0] = Queen.new('White')
+      board.grid[0][0] = Queen.new(:white)
       result = board.move_piece([0, 0], [3, 3])
       expect(result).to eq(:ok)
     end
 
     # Diagonal ↗
     it 'rejects a queen move up-right when blocked' do
-      board.grid[7][0] = Queen.new('White')
-      board.grid[5][2] = Pawn.new('White')
+      board.grid[7][0] = Queen.new(:white)
+      board.grid[5][2] = Pawn.new(:white)
       result = board.move_piece([7, 0], [4, 3])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move up-right if clear' do
-      board.grid[7][0] = Queen.new('White')
+      board.grid[7][0] = Queen.new(:white)
       result = board.move_piece([7, 0], [4, 3])
       expect(result).to eq(:ok)
     end
 
     # Diagonal ↙
     it 'rejects a queen move down-left when blocked' do
-      board.grid[0][7] = Queen.new('White')
-      board.grid[2][5] = Pawn.new('White')
+      board.grid[0][7] = Queen.new(:white)
+      board.grid[2][5] = Pawn.new(:white)
       result = board.move_piece([0, 7], [3, 4])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move down-left if clear' do
-      board.grid[0][7] = Queen.new('White')
+      board.grid[0][7] = Queen.new(:white)
       result = board.move_piece([0, 7], [3, 4])
       expect(result).to eq(:ok)
     end
 
     # Diagonal ↖
     it 'rejects a queen move up-left when blocked' do
-      board.grid[7][7] = Queen.new('White')
-      board.grid[5][5] = Pawn.new('White')
+      board.grid[7][7] = Queen.new(:white)
+      board.grid[5][5] = Pawn.new(:white)
       result = board.move_piece([7, 7], [4, 4])
       expect(result).to eq(:blocked)
     end
 
     it 'allows a queen move up-left if clear' do
-      board.grid[7][7] = Queen.new('White')
+      board.grid[7][7] = Queen.new(:white)
       result = board.move_piece([7, 7], [4, 4])
       expect(result).to eq(:ok)
     end
@@ -477,8 +477,8 @@ RSpec.describe Board do
 
     context 'white pawns' do
       it 'rejects a one-square forward move if the square is occupied' do
-        board.grid[6][4] = Pawn.new('White') # e2
-        board.grid[5][4] = Pawn.new('White') # blocking at e3
+        board.grid[6][4] = Pawn.new(:white) # e2
+        board.grid[5][4] = Pawn.new(:white) # blocking at e3
 
         result = board.move_piece([6, 4], [5, 4])
         expect(result).to eq(:blocked)
@@ -487,8 +487,8 @@ RSpec.describe Board do
       end
 
       it 'rejects a two-square forward move if the immediate square is occupied' do
-        board.grid[6][4] = Pawn.new('White')
-        board.grid[5][4] = Pawn.new('Black') # blocking at e3
+        board.grid[6][4] = Pawn.new(:white)
+        board.grid[5][4] = Pawn.new(:black) # blocking at e3
 
         result = board.move_piece([6, 4], [4, 4]) # e2 → e4
         expect(result).to eq(:blocked)
@@ -497,8 +497,8 @@ RSpec.describe Board do
       end
 
       it 'rejects a two-square forward move if the destination square is occupied' do
-        board.grid[6][4] = Pawn.new('White')
-        board.grid[4][4] = Pawn.new('Black') # blocking at e4
+        board.grid[6][4] = Pawn.new(:white)
+        board.grid[4][4] = Pawn.new(:black) # blocking at e4
 
         result = board.move_piece([6, 4], [4, 4]) # e2 → e4
         expect(result).to eq(:blocked)
@@ -507,7 +507,7 @@ RSpec.describe Board do
       end
 
       it 'allows a two-square forward move if both squares are clear' do
-        board.grid[6][4] = Pawn.new('White')
+        board.grid[6][4] = Pawn.new(:white)
 
         result = board.move_piece([6, 4], [4, 4]) # e2 → e4
         expect(result).to eq(:ok)
@@ -518,8 +518,8 @@ RSpec.describe Board do
 
     context 'black pawns' do
       it 'rejects a one-square forward move if the square is occupied' do
-        board.grid[1][4] = Pawn.new('Black') # e7
-        board.grid[2][4] = Pawn.new('Black') # blocking at e6
+        board.grid[1][4] = Pawn.new(:black) # e7
+        board.grid[2][4] = Pawn.new(:black) # blocking at e6
 
         result = board.move_piece([1, 4], [2, 4])
         expect(result).to eq(:blocked)
@@ -528,8 +528,8 @@ RSpec.describe Board do
       end
 
       it 'rejects a two-square forward move if the immediate square is occupied' do
-        board.grid[1][4] = Pawn.new('Black')
-        board.grid[2][4] = Pawn.new('White') # blocking at e6
+        board.grid[1][4] = Pawn.new(:black)
+        board.grid[2][4] = Pawn.new(:white) # blocking at e6
 
         result = board.move_piece([1, 4], [3, 4]) # e7 → e5
         expect(result).to eq(:blocked)
@@ -538,8 +538,8 @@ RSpec.describe Board do
       end
 
       it 'rejects a two-square forward move if the destination square is occupied' do
-        board.grid[1][4] = Pawn.new('Black')
-        board.grid[3][4] = Pawn.new('White') # blocking at e5
+        board.grid[1][4] = Pawn.new(:black)
+        board.grid[3][4] = Pawn.new(:white) # blocking at e5
 
         result = board.move_piece([1, 4], [3, 4]) # e7 → e5
         expect(result).to eq(:blocked)
@@ -548,7 +548,7 @@ RSpec.describe Board do
       end
 
       it 'allows a two-square forward move if both squares are clear' do
-        board.grid[1][4] = Pawn.new('Black')
+        board.grid[1][4] = Pawn.new(:black)
 
         result = board.move_piece([1, 4], [3, 4]) # e7 → e5
         expect(result).to eq(:ok)
@@ -565,92 +565,92 @@ RSpec.describe Board do
 
     context 'White rook capturing Black pieces' do
       it 'captures upward' do
-        board.grid[4][4] = Rook.new('White')
-        board.grid[1][4] = Pawn.new('Black')
+        board.grid[4][4] = Rook.new(:white)
+        board.grid[1][4] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [1, 4])
         expect(result).to eq(:capture)
         expect(board.grid[1][4]).to be_a(Rook)
-        expect(board.grid[1][4].color).to eq('White')
+        expect(board.grid[1][4].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures downward' do
-        board.grid[4][4] = Rook.new('White')
-        board.grid[6][4] = Pawn.new('Black')
+        board.grid[4][4] = Rook.new(:white)
+        board.grid[6][4] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [6, 4])
         expect(result).to eq(:capture)
         expect(board.grid[6][4]).to be_a(Rook)
-        expect(board.grid[6][4].color).to eq('White')
+        expect(board.grid[6][4].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures left' do
-        board.grid[4][4] = Rook.new('White')
-        board.grid[4][1] = Pawn.new('Black')
+        board.grid[4][4] = Rook.new(:white)
+        board.grid[4][1] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [4, 1])
         expect(result).to eq(:capture)
         expect(board.grid[4][1]).to be_a(Rook)
-        expect(board.grid[4][1].color).to eq('White')
+        expect(board.grid[4][1].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures right' do
-        board.grid[4][4] = Rook.new('White')
-        board.grid[4][7] = Pawn.new('Black')
+        board.grid[4][4] = Rook.new(:white)
+        board.grid[4][7] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [4, 7])
         expect(result).to eq(:capture)
         expect(board.grid[4][7]).to be_a(Rook)
-        expect(board.grid[4][7].color).to eq('White')
+        expect(board.grid[4][7].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
     end
 
     context 'Black rook capturing White pieces' do
       it 'captures upward' do
-        board.grid[4][4] = Rook.new('Black')
-        board.grid[1][4] = Pawn.new('White')
+        board.grid[4][4] = Rook.new(:black)
+        board.grid[1][4] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [1, 4])
         expect(result).to eq(:capture)
         expect(board.grid[1][4]).to be_a(Rook)
-        expect(board.grid[1][4].color).to eq('Black')
+        expect(board.grid[1][4].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures downward' do
-        board.grid[4][4] = Rook.new('Black')
-        board.grid[6][4] = Pawn.new('White')
+        board.grid[4][4] = Rook.new(:black)
+        board.grid[6][4] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [6, 4])
         expect(result).to eq(:capture)
         expect(board.grid[6][4]).to be_a(Rook)
-        expect(board.grid[6][4].color).to eq('Black')
+        expect(board.grid[6][4].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures left' do
-        board.grid[4][4] = Rook.new('Black')
-        board.grid[4][1] = Pawn.new('White')
+        board.grid[4][4] = Rook.new(:black)
+        board.grid[4][1] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [4, 1])
         expect(result).to eq(:capture)
         expect(board.grid[4][1]).to be_a(Rook)
-        expect(board.grid[4][1].color).to eq('Black')
+        expect(board.grid[4][1].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures right' do
-        board.grid[4][4] = Rook.new('Black')
-        board.grid[4][7] = Pawn.new('White')
+        board.grid[4][4] = Rook.new(:black)
+        board.grid[4][7] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [4, 7])
         expect(result).to eq(:capture)
         expect(board.grid[4][7]).to be_a(Rook)
-        expect(board.grid[4][7].color).to eq('Black')
+        expect(board.grid[4][7].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
     end
@@ -663,43 +663,43 @@ RSpec.describe Board do
 
     context 'White pieces' do
       it 'rejects rook moving onto same-color piece' do
-        board.grid[0][0] = Rook.new('White')
-        board.grid[0][7] = Pawn.new('White')
+        board.grid[0][0] = Rook.new(:white)
+        board.grid[0][7] = Pawn.new(:white)
         result = board.move_piece([0, 0], [0, 7])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects bishop moving onto same-color piece' do
-        board.grid[0][0] = Bishop.new('White')
-        board.grid[3][3] = Pawn.new('White')
+        board.grid[0][0] = Bishop.new(:white)
+        board.grid[3][3] = Pawn.new(:white)
         result = board.move_piece([0, 0], [3, 3])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects queen moving onto same-color piece' do
-        board.grid[0][0] = Queen.new('White')
-        board.grid[0][5] = Pawn.new('White')
+        board.grid[0][0] = Queen.new(:white)
+        board.grid[0][5] = Pawn.new(:white)
         result = board.move_piece([0, 0], [0, 5])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects knight moving onto same-color piece' do
-        board.grid[4][4] = Knight.new('White')
-        board.grid[6][5] = Pawn.new('White')
+        board.grid[4][4] = Knight.new(:white)
+        board.grid[6][5] = Pawn.new(:white)
         result = board.move_piece([4, 4], [6, 5])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects king moving onto same-color piece' do
-        board.grid[4][4] = King.new('White')
-        board.grid[5][5] = Pawn.new('White')
+        board.grid[4][4] = King.new(:white)
+        board.grid[5][5] = Pawn.new(:white)
         result = board.move_piece([4, 4], [5, 5])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects pawn moving forward onto same-color piece' do
-        board.grid[6][4] = Pawn.new('White')
-        board.grid[5][4] = Pawn.new('White')
+        board.grid[6][4] = Pawn.new(:white)
+        board.grid[5][4] = Pawn.new(:white)
         result = board.move_piece([6, 4], [5, 4])
         expect(result).to eq(:blocked)
       end
@@ -707,43 +707,43 @@ RSpec.describe Board do
 
     context 'Black pieces' do
       it 'rejects rook moving onto same-color piece' do
-        board.grid[0][0] = Rook.new('Black')
-        board.grid[0][7] = Pawn.new('Black')
+        board.grid[0][0] = Rook.new(:black)
+        board.grid[0][7] = Pawn.new(:black)
         result = board.move_piece([0, 0], [0, 7])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects bishop moving onto same-color piece' do
-        board.grid[0][0] = Bishop.new('Black')
-        board.grid[3][3] = Pawn.new('Black')
+        board.grid[0][0] = Bishop.new(:black)
+        board.grid[3][3] = Pawn.new(:black)
         result = board.move_piece([0, 0], [3, 3])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects queen moving onto same-color piece' do
-        board.grid[0][0] = Queen.new('Black')
-        board.grid[0][5] = Pawn.new('Black')
+        board.grid[0][0] = Queen.new(:black)
+        board.grid[0][5] = Pawn.new(:black)
         result = board.move_piece([0, 0], [0, 5])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects knight moving onto same-color piece' do
-        board.grid[4][4] = Knight.new('Black')
-        board.grid[6][5] = Pawn.new('Black')
+        board.grid[4][4] = Knight.new(:black)
+        board.grid[6][5] = Pawn.new(:black)
         result = board.move_piece([4, 4], [6, 5])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects king moving onto same-color piece' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[5][5] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:black)
+        board.grid[5][5] = Pawn.new(:black)
         result = board.move_piece([4, 4], [5, 5])
         expect(result).to eq(:blocked)
       end
 
       it 'rejects pawn moving forward onto same-color piece' do
-        board.grid[1][4] = Pawn.new('Black')
-        board.grid[2][4] = Pawn.new('Black')
+        board.grid[1][4] = Pawn.new(:black)
+        board.grid[2][4] = Pawn.new(:black)
         result = board.move_piece([1, 4], [2, 4])
         expect(result).to eq(:blocked)
       end
@@ -757,92 +757,92 @@ RSpec.describe Board do
 
     context 'White bishop capturing Black pieces' do
       it 'captures up-right' do
-        board.grid[4][4] = Bishop.new('White')
-        board.grid[6][6] = Pawn.new('Black')
+        board.grid[4][4] = Bishop.new(:white)
+        board.grid[6][6] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [6, 6])
         expect(result).to eq(:capture)
         expect(board.grid[6][6]).to be_a(Bishop)
-        expect(board.grid[6][6].color).to eq('White')
+        expect(board.grid[6][6].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-left' do
-        board.grid[4][4] = Bishop.new('White')
-        board.grid[6][2] = Pawn.new('Black')
+        board.grid[4][4] = Bishop.new(:white)
+        board.grid[6][2] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [6, 2])
         expect(result).to eq(:capture)
         expect(board.grid[6][2]).to be_a(Bishop)
-        expect(board.grid[6][2].color).to eq('White')
+        expect(board.grid[6][2].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-right' do
-        board.grid[4][4] = Bishop.new('White')
-        board.grid[2][6] = Pawn.new('Black')
+        board.grid[4][4] = Bishop.new(:white)
+        board.grid[2][6] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [2, 6])
         expect(result).to eq(:capture)
         expect(board.grid[2][6]).to be_a(Bishop)
-        expect(board.grid[2][6].color).to eq('White')
+        expect(board.grid[2][6].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-left' do
-        board.grid[4][4] = Bishop.new('White')
-        board.grid[2][2] = Pawn.new('Black')
+        board.grid[4][4] = Bishop.new(:white)
+        board.grid[2][2] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [2, 2])
         expect(result).to eq(:capture)
         expect(board.grid[2][2]).to be_a(Bishop)
-        expect(board.grid[2][2].color).to eq('White')
+        expect(board.grid[2][2].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
     end
 
     context 'Black bishop capturing White pieces' do
       it 'captures up-right' do
-        board.grid[4][4] = Bishop.new('Black')
-        board.grid[6][6] = Pawn.new('White')
+        board.grid[4][4] = Bishop.new(:black)
+        board.grid[6][6] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [6, 6])
         expect(result).to eq(:capture)
         expect(board.grid[6][6]).to be_a(Bishop)
-        expect(board.grid[6][6].color).to eq('Black')
+        expect(board.grid[6][6].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-left' do
-        board.grid[4][4] = Bishop.new('Black')
-        board.grid[6][2] = Pawn.new('White')
+        board.grid[4][4] = Bishop.new(:black)
+        board.grid[6][2] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [6, 2])
         expect(result).to eq(:capture)
         expect(board.grid[6][2]).to be_a(Bishop)
-        expect(board.grid[6][2].color).to eq('Black')
+        expect(board.grid[6][2].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-right' do
-        board.grid[4][4] = Bishop.new('Black')
-        board.grid[2][6] = Pawn.new('White')
+        board.grid[4][4] = Bishop.new(:black)
+        board.grid[2][6] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [2, 6])
         expect(result).to eq(:capture)
         expect(board.grid[2][6]).to be_a(Bishop)
-        expect(board.grid[2][6].color).to eq('Black')
+        expect(board.grid[2][6].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-left' do
-        board.grid[4][4] = Bishop.new('Black')
-        board.grid[2][2] = Pawn.new('White')
+        board.grid[4][4] = Bishop.new(:black)
+        board.grid[2][2] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [2, 2])
         expect(result).to eq(:capture)
         expect(board.grid[2][2]).to be_a(Bishop)
-        expect(board.grid[2][2].color).to eq('Black')
+        expect(board.grid[2][2].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
     end
@@ -855,180 +855,180 @@ RSpec.describe Board do
 
     context 'White queen capturing Black pieces' do
       it 'captures up' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[1][4] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[1][4] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [1, 4])
         expect(result).to eq(:capture)
         expect(board.grid[1][4]).to be_a(Queen)
-        expect(board.grid[1][4].color).to eq('White')
+        expect(board.grid[1][4].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[6][4] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[6][4] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [6, 4])
         expect(result).to eq(:capture)
         expect(board.grid[6][4]).to be_a(Queen)
-        expect(board.grid[6][4].color).to eq('White')
+        expect(board.grid[6][4].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures left' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[4][1] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[4][1] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [4, 1])
         expect(result).to eq(:capture)
         expect(board.grid[4][1]).to be_a(Queen)
-        expect(board.grid[4][1].color).to eq('White')
+        expect(board.grid[4][1].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures right' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[4][7] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[4][7] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [4, 7])
         expect(result).to eq(:capture)
         expect(board.grid[4][7]).to be_a(Queen)
-        expect(board.grid[4][7].color).to eq('White')
+        expect(board.grid[4][7].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-right' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[6][6] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[6][6] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [6, 6])
         expect(result).to eq(:capture)
         expect(board.grid[6][6]).to be_a(Queen)
-        expect(board.grid[6][6].color).to eq('White')
+        expect(board.grid[6][6].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-left' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[6][2] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[6][2] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [6, 2])
         expect(result).to eq(:capture)
         expect(board.grid[6][2]).to be_a(Queen)
-        expect(board.grid[6][2].color).to eq('White')
+        expect(board.grid[6][2].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-right' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[2][6] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[2][6] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [2, 6])
         expect(result).to eq(:capture)
         expect(board.grid[2][6]).to be_a(Queen)
-        expect(board.grid[2][6].color).to eq('White')
+        expect(board.grid[2][6].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-left' do
-        board.grid[4][4] = Queen.new('White')
-        board.grid[2][2] = Pawn.new('Black')
+        board.grid[4][4] = Queen.new(:white)
+        board.grid[2][2] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [2, 2])
         expect(result).to eq(:capture)
         expect(board.grid[2][2]).to be_a(Queen)
-        expect(board.grid[2][2].color).to eq('White')
+        expect(board.grid[2][2].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
     end
 
     context 'Black queen capturing White pieces' do
       it 'captures up' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[1][4] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[1][4] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [1, 4])
         expect(result).to eq(:capture)
         expect(board.grid[1][4]).to be_a(Queen)
-        expect(board.grid[1][4].color).to eq('Black')
+        expect(board.grid[1][4].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[6][4] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[6][4] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [6, 4])
         expect(result).to eq(:capture)
         expect(board.grid[6][4]).to be_a(Queen)
-        expect(board.grid[6][4].color).to eq('Black')
+        expect(board.grid[6][4].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures left' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[4][1] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[4][1] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [4, 1])
         expect(result).to eq(:capture)
         expect(board.grid[4][1]).to be_a(Queen)
-        expect(board.grid[4][1].color).to eq('Black')
+        expect(board.grid[4][1].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures right' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[4][7] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[4][7] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [4, 7])
         expect(result).to eq(:capture)
         expect(board.grid[4][7]).to be_a(Queen)
-        expect(board.grid[4][7].color).to eq('Black')
+        expect(board.grid[4][7].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-right' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[6][6] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[6][6] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [6, 6])
         expect(result).to eq(:capture)
         expect(board.grid[6][6]).to be_a(Queen)
-        expect(board.grid[6][6].color).to eq('Black')
+        expect(board.grid[6][6].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-left' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[6][2] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[6][2] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [6, 2])
         expect(result).to eq(:capture)
         expect(board.grid[6][2]).to be_a(Queen)
-        expect(board.grid[6][2].color).to eq('Black')
+        expect(board.grid[6][2].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-right' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[2][6] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[2][6] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [2, 6])
         expect(result).to eq(:capture)
         expect(board.grid[2][6]).to be_a(Queen)
-        expect(board.grid[2][6].color).to eq('Black')
+        expect(board.grid[2][6].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-left' do
-        board.grid[4][4] = Queen.new('Black')
-        board.grid[2][2] = Pawn.new('White')
+        board.grid[4][4] = Queen.new(:black)
+        board.grid[2][2] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [2, 2])
         expect(result).to eq(:capture)
         expect(board.grid[2][2]).to be_a(Queen)
-        expect(board.grid[2][2].color).to eq('Black')
+        expect(board.grid[2][2].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
     end
@@ -1041,187 +1041,187 @@ RSpec.describe Board do
 
     context 'White king capturing Black pieces' do
       it 'captures upward' do
-        board.grid[4][4] = King.new('White')
-        board.grid[3][4] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[3][4] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [3, 4])
         expect(result).to eq(:capture)
         expect(board.grid[3][4]).to be_a(King)
-        expect(board.grid[3][4].color).to eq('White')
+        expect(board.grid[3][4].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures downward' do
-        board.grid[4][4] = King.new('White')
-        board.grid[5][4] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[5][4] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [5, 4])
         expect(result).to eq(:capture)
         expect(board.grid[5][4]).to be_a(King)
-        expect(board.grid[5][4].color).to eq('White')
+        expect(board.grid[5][4].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures left' do
-        board.grid[4][4] = King.new('White')
-        board.grid[4][3] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[4][3] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [4, 3])
         expect(result).to eq(:capture)
         expect(board.grid[4][3]).to be_a(King)
-        expect(board.grid[4][3].color).to eq('White')
+        expect(board.grid[4][3].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures right' do
-        board.grid[4][4] = King.new('White')
-        board.grid[4][5] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[4][5] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [4, 5])
         expect(result).to eq(:capture)
         expect(board.grid[4][5]).to be_a(King)
-        expect(board.grid[4][5].color).to eq('White')
+        expect(board.grid[4][5].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-left' do
-        board.grid[4][4] = King.new('White')
-        board.grid[3][3] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[3][3] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [3, 3])
         expect(result).to eq(:capture)
         expect(board.grid[3][3]).to be_a(King)
-        expect(board.grid[3][3].color).to eq('White')
+        expect(board.grid[3][3].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures up-right' do
-        board.grid[4][4] = King.new('White')
-        board.grid[3][5] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[3][5] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [3, 5])
         expect(result).to eq(:capture)
         expect(board.grid[3][5]).to be_a(King)
-        expect(board.grid[3][5].color).to eq('White')
+        expect(board.grid[3][5].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-left' do
-        board.grid[4][4] = King.new('White')
-        board.grid[5][3] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[5][3] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [5, 3])
         expect(result).to eq(:capture)
         expect(board.grid[5][3]).to be_a(King)
-        expect(board.grid[5][3].color).to eq('White')
+        expect(board.grid[5][3].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures down-right' do
-        board.grid[4][4] = King.new('White')
-        board.grid[5][5] = Pawn.new('Black')
+        board.grid[4][4] = King.new(:white)
+        board.grid[5][5] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [5, 5])
         expect(result).to eq(:capture)
         expect(board.grid[5][5]).to be_a(King)
-        expect(board.grid[5][5].color).to eq('White')
+        expect(board.grid[5][5].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
     end
 
     context 'Black king capturing White pieces' do
       it 'captures upward' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[3][4] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[3][4] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [3, 4])
         expect(result).to eq(:capture)
         expect(board.grid[3][4]).to be_a(King)
-        expect(board.grid[3][4].color).to eq('Black')
+        expect(board.grid[3][4].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # ↓ down
       it 'captures downward' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[5][4] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[5][4] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [5, 4])
         expect(result).to eq(:capture)
         expect(board.grid[5][4]).to be_a(King)
-        expect(board.grid[5][4].color).to eq('Black')
+        expect(board.grid[5][4].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # ← left
       it 'captures left' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[4][3] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[4][3] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [4, 3])
         expect(result).to eq(:capture)
         expect(board.grid[4][3]).to be_a(King)
-        expect(board.grid[4][3].color).to eq('Black')
+        expect(board.grid[4][3].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # → right
       it 'captures right' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[4][5] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[4][5] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [4, 5])
         expect(result).to eq(:capture)
         expect(board.grid[4][5]).to be_a(King)
-        expect(board.grid[4][5].color).to eq('Black')
+        expect(board.grid[4][5].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # ↖ up-left
       it 'captures up-left' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[3][3] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[3][3] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [3, 3])
         expect(result).to eq(:capture)
         expect(board.grid[3][3]).to be_a(King)
-        expect(board.grid[3][3].color).to eq('Black')
+        expect(board.grid[3][3].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # ↗ up-right
       it 'captures up-right' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[3][5] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[3][5] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [3, 5])
         expect(result).to eq(:capture)
         expect(board.grid[3][5]).to be_a(King)
-        expect(board.grid[3][5].color).to eq('Black')
+        expect(board.grid[3][5].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # ↙ down-left
       it 'captures down-left' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[5][3] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[5][3] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [5, 3])
         expect(result).to eq(:capture)
         expect(board.grid[5][3]).to be_a(King)
-        expect(board.grid[5][3].color).to eq('Black')
+        expect(board.grid[5][3].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       # ↘ down-right
       it 'captures down-right' do
-        board.grid[4][4] = King.new('Black')
-        board.grid[5][5] = Pawn.new('White')
+        board.grid[4][4] = King.new(:black)
+        board.grid[5][5] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [5, 5])
         expect(result).to eq(:capture)
         expect(board.grid[5][5]).to be_a(King)
-        expect(board.grid[5][5].color).to eq('Black')
+        expect(board.grid[5][5].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
     end
@@ -1234,30 +1234,30 @@ RSpec.describe Board do
 
     context 'White pawn capturing' do
       it 'captures diagonally left (up-left)' do
-        board.grid[4][4] = Pawn.new('White')
-        board.grid[3][3] = Pawn.new('Black')
+        board.grid[4][4] = Pawn.new(:white)
+        board.grid[3][3] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [3, 3])
         expect(result).to eq(:capture)
         expect(board.grid[3][3]).to be_a(Pawn)
-        expect(board.grid[3][3].color).to eq('White')
+        expect(board.grid[3][3].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'captures diagonally right (up-right)' do
-        board.grid[4][4] = Pawn.new('White')
-        board.grid[3][5] = Pawn.new('Black')
+        board.grid[4][4] = Pawn.new(:white)
+        board.grid[3][5] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [3, 5])
         expect(result).to eq(:capture)
         expect(board.grid[3][5]).to be_a(Pawn)
-        expect(board.grid[3][5].color).to eq('White')
+        expect(board.grid[3][5].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'rejects capturing diagonally left onto same-color piece' do
-        board.grid[4][4] = Pawn.new('White')
-        board.grid[3][3] = Pawn.new('White')
+        board.grid[4][4] = Pawn.new(:white)
+        board.grid[3][3] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [3, 3])
         expect(result).to eq(:blocked)
@@ -1266,8 +1266,8 @@ RSpec.describe Board do
       end
 
       it 'rejects capturing diagonally right onto same-color piece' do
-        board.grid[4][4] = Pawn.new('White')
-        board.grid[3][5] = Pawn.new('White')
+        board.grid[4][4] = Pawn.new(:white)
+        board.grid[3][5] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [3, 5])
         expect(result).to eq(:blocked)
@@ -1278,30 +1278,30 @@ RSpec.describe Board do
 
     context 'Black pawn capturing' do
       it 'captures diagonally left (down-left)' do
-        board.grid[3][3] = Pawn.new('Black')
-        board.grid[4][2] = Pawn.new('White')
+        board.grid[3][3] = Pawn.new(:black)
+        board.grid[4][2] = Pawn.new(:white)
 
         result = board.move_piece([3, 3], [4, 2])
         expect(result).to eq(:capture)
         expect(board.grid[4][2]).to be_a(Pawn)
-        expect(board.grid[4][2].color).to eq('Black')
+        expect(board.grid[4][2].color).to eq(:black)
         expect(board.grid[3][3]).to be_nil
       end
 
       it 'captures diagonally right (down-right)' do
-        board.grid[3][3] = Pawn.new('Black')
-        board.grid[4][4] = Pawn.new('White')
+        board.grid[3][3] = Pawn.new(:black)
+        board.grid[4][4] = Pawn.new(:white)
 
         result = board.move_piece([3, 3], [4, 4])
         expect(result).to eq(:capture)
         expect(board.grid[4][4]).to be_a(Pawn)
-        expect(board.grid[4][4].color).to eq('Black')
+        expect(board.grid[4][4].color).to eq(:black)
         expect(board.grid[3][3]).to be_nil
       end
 
       it 'rejects capturing diagonally left onto same-color piece' do
-        board.grid[3][3] = Pawn.new('Black')
-        board.grid[4][2] = Pawn.new('Black')
+        board.grid[3][3] = Pawn.new(:black)
+        board.grid[4][2] = Pawn.new(:black)
 
         result = board.move_piece([3, 3], [4, 2])
         expect(result).to eq(:blocked)
@@ -1310,8 +1310,8 @@ RSpec.describe Board do
       end
 
       it 'rejects capturing diagonally right onto same-color piece' do
-        board.grid[3][3] = Pawn.new('Black')
-        board.grid[4][4] = Pawn.new('Black')
+        board.grid[3][3] = Pawn.new(:black)
+        board.grid[4][4] = Pawn.new(:black)
 
         result = board.move_piece([3, 3], [4, 4])
         expect(result).to eq(:blocked)
@@ -1328,19 +1328,19 @@ RSpec.describe Board do
 
     context 'White knight capturing Black pieces' do
       it 'captures in an L-shape (2 up, 1 left)' do
-        board.grid[4][4] = Knight.new('White')
-        board.grid[2][3] = Pawn.new('Black')
+        board.grid[4][4] = Knight.new(:white)
+        board.grid[2][3] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [2, 3])
         expect(result).to eq(:capture)
         expect(board.grid[2][3]).to be_a(Knight)
-        expect(board.grid[2][3].color).to eq('White')
+        expect(board.grid[2][3].color).to eq(:white)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'rejects capturing same-color piece' do
-        board.grid[4][4] = Knight.new('White')
-        board.grid[2][3] = Pawn.new('White')
+        board.grid[4][4] = Knight.new(:white)
+        board.grid[2][3] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [2, 3])
         expect(result).to eq(:blocked)
@@ -1351,19 +1351,19 @@ RSpec.describe Board do
 
     context 'Black knight capturing White pieces' do
       it 'captures in an L-shape (2 up, 1 right)' do
-        board.grid[4][4] = Knight.new('Black')
-        board.grid[2][5] = Pawn.new('White')
+        board.grid[4][4] = Knight.new(:black)
+        board.grid[2][5] = Pawn.new(:white)
 
         result = board.move_piece([4, 4], [2, 5])
         expect(result).to eq(:capture)
         expect(board.grid[2][5]).to be_a(Knight)
-        expect(board.grid[2][5].color).to eq('Black')
+        expect(board.grid[2][5].color).to eq(:black)
         expect(board.grid[4][4]).to be_nil
       end
 
       it 'rejects capturing same-color piece' do
-        board.grid[4][4] = Knight.new('Black')
-        board.grid[2][5] = Pawn.new('Black')
+        board.grid[4][4] = Knight.new(:black)
+        board.grid[2][5] = Pawn.new(:black)
 
         result = board.move_piece([4, 4], [2, 5])
         expect(result).to eq(:blocked)
@@ -1377,16 +1377,16 @@ RSpec.describe Board do
     it 'correctly loads a custom grid into the board' do
       # Arrange: create a simple custom grid
       custom_grid = Array.new(8) { Array.new(8) }
-      custom_grid[7][4] = King.new('White') # e1
-      custom_grid[0][4] = King.new('Black') # e8
+      custom_grid[7][4] = King.new(:white) # e1
+      custom_grid[0][4] = King.new(:black) # e8
 
       # Act
       board.set_grid(custom_grid)
 
       # Assert: same object references, not copies
       expect(board.grid[7][4]).to be_a(King)
-      expect(board.grid[7][4].color).to eq('White')
-      expect(board.grid[0][4].color).to eq('Black')
+      expect(board.grid[7][4].color).to eq(:white)
+      expect(board.grid[0][4].color).to eq(:black)
 
       # And check everything else is nil
       empty_squares = board.grid.flatten.compact.count
@@ -1400,13 +1400,13 @@ RSpec.describe Board do
 
       # --- Arrange: set up a nearly empty board ---
       custom_grid = Array.new(8) { Array.new(8) }
-      custom_grid[7][4] = King.new('White')   # e1
-      custom_grid[0][4] = King.new('Black')   # e8
-      custom_grid[1][3] = Queen.new('Black')  # d7
+      custom_grid[7][4] = King.new(:white) # e1
+      custom_grid[0][4] = King.new(:black)   # e8
+      custom_grid[1][3] = Queen.new(:black)  # d7
       board.set_grid(custom_grid)
 
       # --- Before move ---
-      expect(board.is_check?('White')).to be false
+      expect(board.is_check?(:white)).to be false
 
       # --- Act: move queen d7 → e6 ---
       from = [1, 3]
@@ -1416,8 +1416,8 @@ RSpec.describe Board do
       # --- Assert move and check state ---
       expect(move_result).to eq(:ok)
       expect(board.grid[2][4]).to be_a(Queen)
-      expect(board.grid[2][4].color).to eq('Black')
-      expect(board.is_check?('White')).to be true
+      expect(board.grid[2][4].color).to eq(:black)
+      expect(board.is_check?(:white)).to be true
     end
   end
 end

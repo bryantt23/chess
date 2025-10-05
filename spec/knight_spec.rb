@@ -4,7 +4,7 @@ require_relative '../lib/knight'
 require_relative '../lib/pawn'
 
 RSpec.describe Knight do
-  let(:knight) { Knight.new('White') }
+  let(:knight) { Knight.new(:white) }
   let(:grid) { Array.new(8) { Array.new(8) } }
 
   context 'basic movement' do
@@ -51,12 +51,12 @@ RSpec.describe Knight do
 
   context 'interaction with other pieces' do
     it 'cannot land on a same-color piece' do
-      grid[2][3] = Pawn.new('White')
+      grid[2][3] = Pawn.new(:white)
       expect(knight.valid_move?([4, 4], [2, 3], grid)).to eq(:blocked)
     end
 
     it 'can capture an opposing piece' do
-      grid[2][3] = Pawn.new('Black')
+      grid[2][3] = Pawn.new(:black)
       expect(knight.valid_move?([4, 4], [2, 3], grid)).to eq(:capture)
     end
   end

@@ -15,8 +15,8 @@ RSpec.describe View do
 
   describe '#show_turn' do
     it 'prints whose turn it is' do
-      expect { view.show_turn('White') }.to output("White to move. Enter your move:\n").to_stdout
-      expect { view.show_turn('Black') }.to output("Black to move. Enter your move:\n").to_stdout
+      expect { view.show_turn(:white) }.to output("White to move. Enter your move:\n").to_stdout
+      expect { view.show_turn(:black) }.to output("Black to move. Enter your move:\n").to_stdout
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe View do
     end
 
     it 'renders a white pawn at the correct spot (a2)' do
-      pawn = Pawn.new('White')
+      pawn = Pawn.new(:white)
       board.grid[6][0] = pawn
 
       expected_row = "2 WP __ __ __ __ __ __ __\n" # row label + WP in col a

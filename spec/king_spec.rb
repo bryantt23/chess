@@ -4,7 +4,7 @@ require_relative '../lib/king'
 require_relative '../lib/pawn'
 
 RSpec.describe King do
-  let(:king) { King.new('White') }
+  let(:king) { King.new(:white) }
   let(:empty_grid) { Array.new(8) { Array.new(8) } }
 
   context 'valid moves' do
@@ -46,8 +46,8 @@ RSpec.describe King do
     describe 'King blockers (same color)' do
       it 'cannot move up into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[5][4] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[5][4] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [5, 4], grid)
         expect(result).to eq(:blocked)
@@ -55,8 +55,8 @@ RSpec.describe King do
 
       it 'cannot move down into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[3][4] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[3][4] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [3, 4], grid)
         expect(result).to eq(:blocked)
@@ -64,8 +64,8 @@ RSpec.describe King do
 
       it 'cannot move left into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[4][3] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[4][3] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [4, 3], grid)
         expect(result).to eq(:blocked)
@@ -73,8 +73,8 @@ RSpec.describe King do
 
       it 'cannot move right into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[4][5] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[4][5] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [4, 5], grid)
         expect(result).to eq(:blocked)
@@ -82,8 +82,8 @@ RSpec.describe King do
 
       it 'cannot move diagonally up-right into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[5][5] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[5][5] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [5, 5], grid)
         expect(result).to eq(:blocked)
@@ -91,8 +91,8 @@ RSpec.describe King do
 
       it 'cannot move diagonally up-left into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[5][3] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[5][3] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [5, 3], grid)
         expect(result).to eq(:blocked)
@@ -100,8 +100,8 @@ RSpec.describe King do
 
       it 'cannot move diagonally down-right into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[3][5] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[3][5] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [3, 5], grid)
         expect(result).to eq(:blocked)
@@ -109,8 +109,8 @@ RSpec.describe King do
 
       it 'cannot move diagonally down-left into a same-color piece' do
         grid = Array.new(8) { Array.new(8) }
-        grid[4][4] = King.new('White')
-        grid[3][3] = Pawn.new('White')
+        grid[4][4] = King.new(:white)
+        grid[3][3] = Pawn.new(:white)
 
         result = grid[4][4].valid_move?([4, 4], [3, 3], grid)
         expect(result).to eq(:blocked)

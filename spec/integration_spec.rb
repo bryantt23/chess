@@ -105,7 +105,7 @@ RSpec.describe 'Integration: capture showcase' do
 
     # 8) White bishop g5 captures f6 (bishop capture)
     board.move_piece([3, 6], [2, 5]) # takes nothing yet, just moving closer
-    board.grid[1][6] = Pawn.new('Black') # drop a black pawn on g7
+    board.grid[1][6] = Pawn.new(:black) # drop a black pawn on g7
     view.show_board(board.grid)
     board.move_piece([2, 5], [1, 6]) # bishop captures pawn
     view.show_board(board.grid)
@@ -127,7 +127,7 @@ RSpec.describe 'Integration: capture showcase' do
     view.show_board(board.grid)
 
     # 13) Drop a black pawn at h7
-    board.grid[1][7] = Pawn.new('Black')
+    board.grid[1][7] = Pawn.new(:black)
     view.show_board(board.grid)
 
     # 14) White queen captures h7 (queen capture)
@@ -136,6 +136,6 @@ RSpec.describe 'Integration: capture showcase' do
 
     # Assertions
     expect(board.grid[1][7]).to be_a(Queen)
-    expect(board.grid[1][7].color).to eq('White')
+    expect(board.grid[1][7].color).to eq(:white)
   end
 end

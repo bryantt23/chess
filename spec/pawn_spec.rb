@@ -6,7 +6,7 @@ RSpec.describe Pawn do
   let(:empty_grid) { Array.new(8) { Array.new(8) } }
 
   context 'white pawn' do
-    let(:pawn) { Pawn.new('White') }
+    let(:pawn) { Pawn.new(:white) }
 
     it 'can move forward one square' do
       expect(pawn.valid_move?([6, 4], [5, 4], empty_grid)).to eq(:ok)
@@ -30,7 +30,7 @@ RSpec.describe Pawn do
   end
 
   context 'black pawn' do
-    let(:pawn) { Pawn.new('Black') }
+    let(:pawn) { Pawn.new(:black) }
 
     it 'can move forward one square' do
       expect(pawn.valid_move?([1, 4], [2, 4], empty_grid)).to eq(:ok)

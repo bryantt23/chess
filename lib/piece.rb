@@ -6,7 +6,7 @@ class Piece
   end
 
   def display
-    "#{@color[0]}#{@display_name}"
+    "#{@color[0].upcase}#{@display_name}"
   end
 
   def valid_diagonal?(from, to)
