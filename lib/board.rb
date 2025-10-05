@@ -7,10 +7,14 @@ require_relative './queen'
 require_relative './king'
 
 class Board
-  attr_accessor :grid
+  attr_reader :grid
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
+  end
+
+  def set_grid(grid)
+    @grid = grid
   end
 
   def setup_board
