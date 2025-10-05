@@ -1420,4 +1420,17 @@ RSpec.describe Board do
       expect(board.is_check?(:white)).to be true
     end
   end
+
+  describe '#is_check? with minimal board' do
+    it 'detects check when Black rook threatens White king on empty board' do
+      board = Board.new
+      custom_grid = Array.new(8) { Array.new(8) }
+
+      custom_grid[7][4] = King.new(:white) # e1
+      custom_grid[0][4] = Rook.new(:black) # e8
+      board.set_grid(custom_grid)
+
+      expect(board.is_check?(:white)).to be true
+    end
+  end
 end

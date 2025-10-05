@@ -7,6 +7,17 @@ require_relative './queen'
 require_relative './king'
 
 class Board
+  STARTING_LAYOUT = [
+    %i[rook knight bishop queen king bishop knight rook].map { |p| [p, :black] },
+    Array.new(8) { %i[pawn black] },
+    Array.new(8) { nil },
+    Array.new(8) { nil },
+    Array.new(8) { nil },
+    Array.new(8) { nil },
+    Array.new(8) { %i[pawn white] },
+    %i[rook knight bishop queen king bishop knight rook].map { |p| [p, :white] }
+  ].freeze
+
   attr_reader :grid
 
   def initialize
@@ -18,20 +29,28 @@ class Board
   end
 
   def setup_board
-    @grid[0] =
-      [Rook.new(:black), Knight.new(:black), Bishop.new(:black), Queen.new(:black), King.new(:black),
-       Bishop.new(:black), Knight.new(:black), Rook.new(:black)]
+    @grid = STARTING_LAYOUT.map do |row|
+      row.map do |cell|
+        next nil unless cell
 
-    @grid[1].each_with_index do |_elem, index|
-      @grid[1][index] = Pawn.new(:black)
+        piece_type, color = cell
+        Object.const_get(piece_type.to_s.capitalize).new(color)
+      end
     end
+  end
 
-    @grid[6].each_with_index do |_elem, index|
-      @grid[6][index] = Pawn.new(:white)
+  def board_pure?
+    STARTING_LAYOUT.each_with_index.all? do |row, r|
+      row.each_with_index.all? do |cell, c|
+        piece = @grid[r][c]
+        if cell.nil?
+          piece.nil?
+        else
+          type, color = cell
+          piece.is_a?(Object.const_get(type.to_s.capitalize)) && piece.color == color
+        end
+      end
     end
-    @grid[7] =
-      [Rook.new(:white), Knight.new(:white), Bishop.new(:white), Queen.new(:white), King.new(:white),
-       Bishop.new(:white), Knight.new(:white), Rook.new(:white)]
   end
 
   def move_piece(from, to)
