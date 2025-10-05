@@ -69,8 +69,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Rook movement' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     it 'allows a valid horizontal move for a rook' do
       board.grid[4][4] = Rook.new('White')
@@ -90,8 +91,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Bishop movement' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     it 'allows a valid diagonal move for a bishop' do
       board.grid[4][4] = Bishop.new('White')
@@ -111,8 +113,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Queen movement' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     it 'allows a valid diagonal move for a queen' do
       board.grid[3][3] = Queen.new('White')
@@ -132,8 +135,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with King movement' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     it 'allows a valid one-square move for a king' do
       board.grid[4][4] = King.new('White')
@@ -153,8 +157,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Knight movement' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     it 'allows a valid L-shaped move for a knight' do
       board.grid[4][4] = Knight.new('White')
@@ -174,8 +179,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Pawn movement' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     it 'allows a valid one-square forward move for a pawn' do
       board.grid[6][4] = Pawn.new('White')
@@ -195,8 +201,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Rook blockers' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     # ↓ down
     it 'rejects a rook move down when a piece blocks the path' do
@@ -346,8 +353,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Queen blockers' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     # Vertical ↓
     it 'rejects a queen move down when blocked' do
@@ -463,8 +471,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Pawn blockers' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'white pawns' do
       it 'rejects a one-square forward move if the square is occupied' do
@@ -550,8 +559,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Rook captures' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White rook capturing Black pieces' do
       it 'captures upward' do
@@ -647,8 +657,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece when destination occupied by same color' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White pieces' do
       it 'rejects rook moving onto same-color piece' do
@@ -740,8 +751,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Bishop captures' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White bishop capturing Black pieces' do
       it 'captures up-right' do
@@ -837,8 +849,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Queen captures' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White queen capturing Black pieces' do
       it 'captures up' do
@@ -1022,8 +1035,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with King captures' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White king capturing Black pieces' do
       it 'captures upward' do
@@ -1214,8 +1228,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Pawn captures' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White pawn capturing' do
       it 'captures diagonally left (up-left)' do
@@ -1307,8 +1322,9 @@ RSpec.describe Board do
   end
 
   describe '#move_piece with Knight captures' do
-    before(:each) { board.set_grid(Array.new(8) { Array.new(8) })
- }
+    before(:each) do
+      board.set_grid(Array.new(8) { Array.new(8) })
+    end
 
     context 'White knight capturing Black pieces' do
       it 'captures in an L-shape (2 up, 1 left)' do
@@ -1375,6 +1391,33 @@ RSpec.describe Board do
       # And check everything else is nil
       empty_squares = board.grid.flatten.compact.count
       expect(empty_squares).to eq(2)
+    end
+  end
+
+  describe '#load_grid and check detection integration' do
+    it 'loads a custom grid, moves Black queen straight down, and detects White in check' do
+      board = Board.new
+
+      # --- Arrange: set up a nearly empty board ---
+      custom_grid = Array.new(8) { Array.new(8) }
+      custom_grid[7][4] = King.new('White')   # e1
+      custom_grid[0][4] = King.new('Black')   # e8
+      custom_grid[1][3] = Queen.new('Black')  # d7
+      board.set_grid(custom_grid)
+
+      # --- Before move ---
+      expect(board.is_check?('White')).to be false
+
+      # --- Act: move queen d7 → e6 ---
+      from = [1, 3]
+      to   = [2, 4]
+      move_result = board.move_piece(from, to)
+
+      # --- Assert move and check state ---
+      expect(move_result).to eq(:ok)
+      expect(board.grid[2][4]).to be_a(Queen)
+      expect(board.grid[2][4].color).to eq('Black')
+      expect(board.is_check?('White')).to be true
     end
   end
 end
