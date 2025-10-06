@@ -7,7 +7,7 @@ require_relative './queen'
 require_relative './king'
 
 class Board
-  STARTING_LAYOUT = [
+  STARTING_LAYOUT ||= [
     %i[rook knight bishop queen king bishop knight rook].map { |p| [p, :black] },
     Array.new(8) { %i[pawn black] },
     Array.new(8) { nil },
@@ -78,7 +78,7 @@ class Board
 
     @grid.each_with_index do |row, i|
       row.each_with_index do |elem, j|
-        return false if can_escape_check?(elem, i, j, color)
+        return false if !elem.nil? && elem.color == color && can_escape_check?(elem, i, j, color)
       end
     end
     true
@@ -89,13 +89,14 @@ class Board
       (0...8).each do |j|
         next if i == row && j == col
 
-        next unless move_piece([row, col], [i, j]) != :illegal
-
         board_copy = Marshal.load(Marshal.dump(@grid))
+        result = piece.valid_move?([row, col], [i, j], board_copy)
+        next unless %i[ok capture].include?(result)
+
         board_copy[row][col] = nil
         board_copy[i][j] = piece
 
-        return true if is_check?(color, grid) == false
+        return true unless is_check?(color, board_copy)
       end
     end
 
@@ -115,12 +116,39 @@ class Board
       row.each_with_index do |_col, col_index|
         piece = grid[row_index][col_index]
         next unless !piece.nil? && piece.color != color
-        return true if piece.valid_move?([row_index, col_index], king_location, @grid) == :capture
+        return true if piece.valid_move?([row_index, col_index], king_location, grid) == :capture
       end
     end
     false
   end
 end
 
-board = Board.new
-board.checkmate?(:black)
+# grid = Array.new(8) { Array.new(8) }
+# board = Board.new
+# grid[7][0] = King.new(:white) # a1
+# grid[6][0] = Rook.new(:black) # a2
+# grid[5][2] = Rook.new(:black) # c3
+# grid[0][4] = King.new(:black) # e8
+# board.set_grid(grid)
+# puts "#{board.checkmate?(:white)}"
+
+# board = Board.new
+# grid = Array.new(8) { Array.new(8) }
+
+# grid[7][0] = King.new(:white)   # a1
+# grid[6][0] = Rook.new(:black)   # a2
+# grid[5][2] = Rook.new(:black)   # c3
+# grid[0][4] = King.new(:black)   # e8
+# board.set_grid(grid)
+# puts "hii #{board.checkmate?(:white)}"
+
+# board = Board.new
+# grid = Array.new(8) { Array.new(8) }
+
+# grid[7][7] = King.new(:white) # h1
+# grid[5][5] = Queen.new(:black) # f3
+# grid[2][2] = Bishop.new(:black) # c6
+# grid[0][4] = King.new(:black)   # e8
+# board.set_grid(grid)
+
+# puts "hii #{board.checkmate?(:white)}"
