@@ -23,4 +23,8 @@ class View
   def invalid_format
     puts "Invalid format. Please use moves like 'e2 e4'."
   end
+
+  def in_check(player)
+    puts "#{player.capitalize} is in check!"
+  end
 end

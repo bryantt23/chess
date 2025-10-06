@@ -149,7 +149,7 @@ RSpec.describe GameEngine do
 
   # 7️⃣ CHECK MESSAGE
   describe '#new_game' do
-    xit 'shows "White is in check!" when Black moves into check position' do
+    it 'shows "White is in check!" when Black moves into check position' do
       # Moves: White opens f-pawn, Black opens e-pawn, White weakens defense, Black queen moves to h4 -> check
       $stdin = StringIO.new("f2 f3\ne7 e5\ng2 g4\nd8 h4\nexit\n")
 
@@ -157,6 +157,26 @@ RSpec.describe GameEngine do
 
       expect(output).to include('White is in check!')
       expect(output).to end_with("White to move. Enter your move:\n")
+    end
+  end
+
+  # 8️⃣ CHECK MESSAGE AFTER ROOK MOVE
+  describe '#new_game' do
+    it 'shows "Black is in check!" after White rook moves into position' do
+      # Arrange: custom near-empty board
+      custom_grid = Array.new(8) { Array.new(8) }
+      custom_grid[7][4] = King.new(:white)  # e1
+      custom_grid[0][4] = King.new(:black)  # e8
+      custom_grid[3][1] = Rook.new(:white)  # b5 (not checking yet)
+      board.set_grid(custom_grid)
+
+      # White rook moves from b5 → e5, which puts black in check
+      $stdin = StringIO.new("b5 e5\nexit\n")
+
+      output = capture_stdout { engine.new_game }
+
+      expect(output).to include('Black is in check!')
+      expect(output).to end_with("Black to move. Enter your move:\n")
     end
   end
 

@@ -14,7 +14,6 @@ class GameEngine
   def new_game
     @current_turn = :white
     @view.welcome
-    @board.setup_board
     play_turn
   end
 
@@ -33,9 +32,16 @@ class GameEngine
       @view.invalid_format
     else
       result = @board.move_piece(parsed_move[0], parsed_move[1])
+
       if result == :illegal
         @view.illegal_move
       else
+        # puts other player in check?
+        other_player = @current_turn == :white ? :black : :white
+        in_check = @board.is_check?(other_player)
+
+        @view.in_check(other_player) if in_check
+
         @current_turn = @current_turn == :white ? :black : :white
       end
     end
@@ -46,8 +52,3 @@ class GameEngine
     $stdin.gets&.chomp
   end
 end
-
-# board = Board.new
-# view = View.new
-# engine = GameEngine.new(board, view)
-# engine.new_game
