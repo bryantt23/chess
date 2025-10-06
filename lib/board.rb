@@ -73,16 +73,45 @@ class Board
     result
   end
 
-  def is_check?(color)
+  def checkmate?(color)
+    return false if is_check?(color) == false
+
+    @grid.each_with_index do |row, i|
+      row.each_with_index do |elem, j|
+        return false if can_escape_check?(elem, i, j, color)
+      end
+    end
+    true
+  end
+
+  def can_escape_check?(piece, row, col, color)
+    (0...8).each do |i|
+      (0...8).each do |j|
+        next if i == row && j == col
+
+        next unless move_piece([row, col], [i, j]) != :illegal
+
+        board_copy = Marshal.load(Marshal.dump(@grid))
+        board_copy[row][col] = nil
+        board_copy[i][j] = piece
+
+        return true if is_check?(color, grid) == false
+      end
+    end
+
+    false
+  end
+
+  def is_check?(color, grid = @grid)
     king_location = []
-    @grid.each_with_index do |row, row_index|
-      row.each_with_index do  |col, col_index|
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |col, col_index|
         piece = col
         king_location = [row_index, col_index] if !piece.nil? && piece.color == color && piece.is_a?(King)
       end
     end
 
-    @grid.each_with_index do |row, row_index|
+    grid.each_with_index do |row, row_index|
       row.each_with_index do |_col, col_index|
         piece = grid[row_index][col_index]
         next unless !piece.nil? && piece.color != color
@@ -92,3 +121,6 @@ class Board
     false
   end
 end
+
+board = Board.new
+board.checkmate?(:black)
