@@ -6,6 +6,25 @@ class Pawn < Piece
     @display_name = 'P'
   end
 
+  def is_illegal_move?(rowFrom, colFrom, rowTo, colTo, direction)
+    if rowFrom == rowTo || (colFrom - colTo).abs > 1 || (rowFrom - rowTo).abs > 2 || ((colFrom - colTo).abs == 1 && (rowFrom - rowTo).abs != 1)
+      true
+    else
+      direction == :up ? (rowTo > rowFrom) : (rowTo < rowFrom)
+    end
+  end
+
+  def capture_result(rowTo, colTo, grid)
+    destination_square = grid[rowTo][colTo]
+    if destination_square.nil?
+      :illegal
+    elsif destination_square.color == color
+      :blocked
+    else
+      :capture
+    end
+  end
+
   def valid_move?(from, to, grid = nil)
     return :illegal if from == to
 
@@ -14,11 +33,11 @@ class Pawn < Piece
     rowFrom = from[0]
     rowTo = to[0]
     if @color == :white
-      if rowFrom == rowTo && colFrom != colTo
-        :illegal
-      elsif rowTo > rowFrom
-        :illegal
-      elsif rowFrom == 6
+      return :illegal if is_illegal_move?(rowFrom, colFrom, rowTo, colTo, :up)
+
+      return capture_result(rowTo, colTo, grid) if (colFrom - colTo).abs == 1 && (rowFrom - rowTo).abs == 1
+
+      if rowFrom == 6
         if rowTo >= 4
           rowFrom -= 1
           while rowFrom >= rowTo
@@ -31,16 +50,7 @@ class Pawn < Piece
           :illegal
         end
       elsif (rowTo - rowFrom).abs == 1
-        if (colFrom - colTo).abs == 1
-          destination_square = grid[rowTo][colTo]
-          if destination_square.nil?
-            :ok
-          elsif destination_square.color == color
-            :blocked
-          else
-            :capture
-          end
-        elsif grid[rowTo][colTo].nil?
+        if grid[rowTo][colTo].nil?
           :ok
         else
           :blocked
@@ -49,11 +59,11 @@ class Pawn < Piece
         :illegal
       end
     elsif @color == :black
-      if rowFrom == rowTo && colFrom != colTo
-        :illegal
-      elsif rowTo < rowFrom
-        :illegal
-      elsif rowFrom == 1
+      return :illegal if is_illegal_move?(rowFrom, colFrom, rowTo, colTo, :down)
+
+      return capture_result(rowTo, colTo, grid) if (colFrom - colTo).abs == 1 && (rowFrom - rowTo).abs == 1
+
+      if rowFrom == 1
         if rowTo <= 3
 
           rowFrom += 1
@@ -68,16 +78,7 @@ class Pawn < Piece
           :illegal
         end
       elsif rowTo - rowFrom == 1
-        if (colFrom - colTo).abs == 1
-          destination_square = grid[rowTo][colTo]
-          if destination_square.nil?
-            :ok
-          elsif destination_square.color == color
-            :blocked
-          else
-            :capture
-          end
-        elsif grid[rowTo][colTo].nil?
+        if grid[rowTo][colTo].nil?
           :ok
         else
           :blocked
