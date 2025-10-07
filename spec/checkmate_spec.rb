@@ -194,4 +194,29 @@ RSpec.describe Board do
       expect(board.checkmate?(:white)).to be false
     end
   end
+
+  it 'returns false when White is in check but can escape sideways' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    grid[7][0] = King.new(:white)  # a1
+    grid[5][0] = Rook.new(:black)  # a3
+    grid[0][4] = King.new(:black)  # e8
+    board.set_grid(grid)
+
+    expect(board.checkmate?(:white)).to be false
+  end
+
+  it 'returns true for Anastasia’s mate (rook + knight vs king + pawn)' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    grid[1][7] = King.new(:black)    # h7
+    grid[1][6] = Pawn.new(:black)    # g7
+    grid[1][4] = Knight.new(:white)  # e7
+    grid[3][7] = Rook.new(:white)    # h5
+
+    board.set_grid(grid)
+    expect(board.checkmate?(:black)).to be true
+  end
 end
