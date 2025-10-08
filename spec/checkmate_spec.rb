@@ -219,4 +219,48 @@ RSpec.describe Board do
     board.set_grid(grid)
     expect(board.checkmate?(:black)).to be true
   end
+
+  it 'detects back-rank mate (rook on 8th rank, king trapped by pawns)' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    # Board visualization reference (row 0 = top):
+    # 0 a8 b8 c8 d8 e8 f8 g8 h8
+    #                 ♖(white rook)e8  ♚(black king)g8
+    # 1 a7 b7 c7 d7 e7 f7 g7 h7
+    #                    ♟(black pawns) f7 g7 h7
+    # White pieces from bottom (row 7)
+    grid[0][4] = Rook.new(:white)    # e8
+    grid[0][6] = King.new(:black)    # g8
+    grid[1][5] = Pawn.new(:black)    # f7
+    grid[1][6] = Pawn.new(:black)    # g7
+    grid[1][7] = Pawn.new(:black)    # h7
+    grid[7][4] = King.new(:white)    # e1 (to satisfy board)
+
+    board.set_grid(grid)
+
+    expect(board.checkmate?(:black)).to be true
+  end
+
+  it 'detects Arabian mate (rook + knight corner checkmate)' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    # Board reference:
+    # 0  a8 b8 c8 d8 e8 f8 g8 h8
+    #                        ♚(black king) h8
+    # 1  a7 b7 c7 d7 e7 f7 g7 h7
+    #                          ♖(white rook) h7
+    # 2  a6 b6 c6 d6 e6 f6 g6 h6
+    #                      ♘(white knight) f6
+    # White king to complete board
+    grid[0][7] = King.new(:black)     # h8
+    grid[1][7] = Rook.new(:white)     # h7
+    grid[2][5] = Knight.new(:white)   # f6
+    grid[7][4] = King.new(:white)     # e1
+
+    board.set_grid(grid)
+
+    expect(board.checkmate?(:black)).to be true
+  end
 end

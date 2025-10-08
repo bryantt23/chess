@@ -152,3 +152,13 @@ end
 # board.set_grid(grid)
 
 # puts "hii #{board.checkmate?(:white)}"
+
+# board = Board.new
+# grid = Array.new(8) { Array.new(8) }
+# grid[0][7] = King.new(:black)     # h8
+# grid[1][7] = Rook.new(:white)     # h7
+# grid[2][5] = Knight.new(:white)   # f6
+# grid[7][4] = King.new(:white)     # e1
+
+# board.set_grid(grid)
+# board.checkmate?(:black)

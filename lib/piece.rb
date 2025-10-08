@@ -118,7 +118,7 @@ class Piece
       end
     else
       colFrom -= 1
-      while rowTo < colFrom
+      while colTo < colFrom
         return :blocked if grid[rowFrom][colFrom]
 
         colFrom -= 1
