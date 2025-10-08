@@ -66,11 +66,26 @@ class Board
     result = piece.valid_move?(from, to, @grid)
 
     if %i[ok capture].include?(result)
+      return :illegal if causes_check?(from, to, @grid, piece)
+
       @grid[rowTo][colTo] = piece
       @grid[rowFrom][colFrom] = nil
     end
 
     result
+  end
+
+  def causes_check?(from, to, grid, piece)
+    colFrom = from[1]
+    rowFrom = from[0]
+    rowTo = to[0]
+    colTo = to[1]
+
+    board_copy = Marshal.load(Marshal.dump(grid))
+    board_copy[rowTo][colTo] = piece
+    board_copy[rowFrom][colFrom] = nil
+
+    is_check?(piece.color, board_copy)
   end
 
   def checkmate?(color)
