@@ -263,4 +263,51 @@ RSpec.describe Board do
 
     expect(board.checkmate?(:black)).to be true
   end
+
+  it 'returns true for Boden’s Mate (double bishop checkmate)' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    grid[0][2] = King.new(:black)     # c8
+    grid[0][3] = Rook.new(:black)     # d8
+    grid[1][3] = Pawn.new(:black)     # d7
+    grid[2][0] = Bishop.new(:white)   # a6
+    grid[4][5] = Bishop.new(:white)   # f4
+    grid[7][4] = King.new(:white)     # e1
+
+    board.set_grid(grid)
+
+    expect(board.checkmate?(:black)).to be true
+  end
+
+  it 'returns true for Smothered Mate (knight checkmate with trapped king)' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    grid[0][7] = King.new(:black)     # h8
+    grid[0][6] = Rook.new(:black)     # g8 (traps escape)
+    grid[1][6] = Pawn.new(:black)     # g7
+    grid[1][7] = Pawn.new(:black)     # h7
+    grid[1][5] = Knight.new(:white)   # f7 (checkmating knight)
+    grid[7][4] = King.new(:white)     # e1
+
+    board.set_grid(grid)
+
+    expect(board.checkmate?(:black)).to be true
+  end
+
+  it 'returns true for Opera Mate (rook and bishop checkmate)' do
+    board = Board.new
+    grid = Array.new(8) { Array.new(8) }
+
+    grid[0][4] = King.new(:black)     # e8
+    grid[0][3] = Rook.new(:white)     # d8  – delivering check
+    grid[1][5] = Pawn.new(:black)     # f7  – blocks escape
+    grid[3][6] = Bishop.new(:white)   # g5  – controls f6 & h6
+    grid[7][4] = King.new(:white)     # e1
+
+    board.set_grid(grid)
+
+    expect(board.checkmate?(:black)).to be true
+  end
 end
