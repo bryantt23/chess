@@ -27,4 +27,8 @@ class View
   def in_check(player)
     puts "#{player.capitalize} is in check!"
   end
+
+  def checkmate(player)
+    puts "Checkmate! #{player.capitalize} loses."
+  end
 end

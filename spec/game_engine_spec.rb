@@ -149,14 +149,13 @@ RSpec.describe GameEngine do
 
   # 7️⃣ CHECK MESSAGE
   describe '#new_game' do
-    it 'shows "White is in check!" when Black moves into check position' do
+    it 'shows "Checkmate! White loses." when Black delivers Fool’s Mate' do
       # Moves: White opens f-pawn, Black opens e-pawn, White weakens defense, Black queen moves to h4 -> check
       $stdin = StringIO.new("f2 f3\ne7 e5\ng2 g4\nd8 h4\nexit\n")
 
       output = capture_stdout { engine.new_game }
 
-      expect(output).to include('White is in check!')
-      expect(output).to end_with("White to move. Enter your move:\n")
+      expect(output).to include('Checkmate! White loses.')
     end
   end
 
@@ -199,6 +198,18 @@ RSpec.describe GameEngine do
           'White to move. Enter your move:'
         )
       ).to_stdout
+    end
+  end
+
+  # 9️⃣ CHECKMATE MESSAGE
+  describe '#new_game' do
+    it 'shows "Checkmate! Black loses." at end of Scholar’s Mate' do
+      # White performs Scholar’s Mate sequence
+      $stdin = StringIO.new("e2 e4\ne7 e5\nd1 h5\nb8 c6\nf1 c4\ng8 f6\nh5 f7\nexit\n")
+
+      output = capture_stdout { engine.new_game }
+
+      expect(output).to include('Checkmate! Black loses.')
     end
   end
 end

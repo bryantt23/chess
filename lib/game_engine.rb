@@ -9,6 +9,7 @@ class GameEngine
   def initialize(board, view)
     @view = view
     @board = board
+    @game_over = false
   end
 
   def new_game
@@ -39,12 +40,23 @@ class GameEngine
         # puts other player in check?
         other_player = @current_turn == :white ? :black : :white
         in_check = @board.is_check?(other_player)
-
-        @view.in_check(other_player) if in_check
+        if in_check
+          checkmate = @board.checkmate?(other_player)
+          if checkmate
+            @view.checkmate(other_player)
+            @view.show_board(@board.grid)
+            @game_over = true
+          else
+            @view.in_check(other_player)
+          end
+        end
 
         @current_turn = @current_turn == :white ? :black : :white
       end
     end
+
+    return if @game_over == true
+
     play_turn
   end
 
