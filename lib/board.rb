@@ -19,10 +19,21 @@ class Board
   ].freeze
 
   attr_reader :grid
+  attr_accessor :white_king_moved, :white_rook_kingside_moved,
+                :white_rook_queenside_moved,
+                :black_king_moved,
+                :black_rook_kingside_moved,
+                :black_rook_queenside_moved
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
     setup_board
+    @white_king_moved = false
+    @white_rook_kingside_moved = false
+    @white_rook_queenside_moved = false
+    @black_king_moved = false
+    @black_rook_kingside_moved = false
+    @black_rook_queenside_moved = false
   end
 
   def set_grid(grid)
@@ -55,6 +66,8 @@ class Board
   end
 
   def move_piece(from, to)
+    return castling_result(from, to) if is_castling_move?(from, to)
+
     colFrom = from[1]
     rowFrom = from[0]
     rowTo = to[0]
@@ -69,6 +82,28 @@ class Board
       return :illegal if causes_check?(from, to, @grid, piece)
 
       piece = Queen.new(piece.color) if is_promotion?(piece, to)
+
+      if piece.is_a?(King)
+        if piece.color == :white
+          @white_king_moved = true
+        else
+          @black_king_moved = true
+        end
+      end
+
+      if piece.is_a?(Rook)
+        if piece.color == :white
+          if from == [7, 7]
+            @white_rook_kingside_moved = true
+          elsif from == [7, 0]
+            @white_rook_queenside_moved = true
+          end
+        elsif from == [0, 7] # black
+          @black_rook_kingside_moved = true
+        elsif from == [0, 0]
+          @black_rook_queenside_moved = true
+        end
+      end
 
       @grid[rowTo][colTo] = piece
       @grid[rowFrom][colFrom] = nil
@@ -164,6 +199,68 @@ class Board
     end
     board.set_grid(new_grid)
     board
+  end
+
+  def is_castling_move?(from, to)
+    piece = @grid[from[0]][from[1]]
+    return false unless piece.is_a?(King)
+
+    (to[1] - from[1]).abs == 2
+  end
+
+  def castling_result(from, to)
+    color = @grid[from[0]][from[1]].color
+    row   = from[0]
+
+    kingside = to[1] > from[1]
+    rook_from = kingside ? [row, 7] : [row, 0]
+    rook_to   = kingside ? [row, 5] : [row, 3]
+
+    # --- Rule checks ---
+    return :illegal if color == :white && @white_king_moved
+    return :illegal if color == :black && @black_king_moved
+
+    if color == :white
+      return :illegal if kingside && @white_rook_kingside_moved
+      return :illegal if !kingside && @white_rook_queenside_moved
+    else
+      return :illegal if kingside && @black_rook_kingside_moved
+      return :illegal if !kingside && @black_rook_queenside_moved
+    end
+
+    # squares between king and rook must be empty
+    min_col, max_col = [from[1], rook_from[1]].sort
+    ((min_col + 1)...max_col).each do |col|
+      return :illegal unless @grid[row][col].nil?
+    end
+
+    # king cannot be in or pass through check
+    path_cols = kingside ? [from[1], from[1] + 1, from[1] + 2] : [from[1], from[1] - 1, from[1] - 2]
+    path_cols.each do |col|
+      temp = Marshal.load(Marshal.dump(@grid))
+      temp[row][from[1]] = nil
+      temp[row][col] = King.new(color)
+      return :illegal if is_check?(color, temp)
+    end
+
+    # --- Perform castling ---
+    king_piece = @grid[from[0]][from[1]]
+    rook_piece = @grid[rook_from[0]][rook_from[1]]
+
+    @grid[from[0]][from[1]] = nil
+    @grid[rook_from[0]][rook_from[1]] = nil
+    @grid[to[0]][to[1]] = king_piece
+    @grid[rook_to[0]][rook_to[1]] = rook_piece
+
+    if color == :white
+      @white_king_moved = true
+      kingside ? @white_rook_kingside_moved = true : @white_rook_queenside_moved = true
+    else
+      @black_king_moved = true
+      kingside ? @black_rook_kingside_moved = true : @black_rook_queenside_moved = true
+    end
+
+    :ok
   end
 end
 
