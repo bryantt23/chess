@@ -68,11 +68,25 @@ class Board
     if %i[ok capture].include?(result)
       return :illegal if causes_check?(from, to, @grid, piece)
 
+      piece = Queen.new(piece.color) if is_promotion?(piece, to)
+
       @grid[rowTo][colTo] = piece
       @grid[rowFrom][colFrom] = nil
     end
 
     result
+  end
+
+  def is_promotion?(piece, to)
+    if piece.is_a?(Pawn) == false
+      false
+    else
+      to[0] == if piece.color == :white
+                 0
+               else
+                 7
+               end
+    end
   end
 
   def causes_check?(from, to, grid, piece)
