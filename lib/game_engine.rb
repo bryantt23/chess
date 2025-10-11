@@ -64,7 +64,13 @@ class GameEngine
       file_path = File.join(SAVE_DIR, "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.json")
       game_state = {
         grid: @board.grid,
-        current_turn: @current_turn
+        current_turn: @current_turn,
+        white_king_moved: @board.white_king_moved,
+        white_rook_kingside_moved: @board.white_rook_kingside_moved,
+        white_rook_queenside_moved: @board.white_rook_queenside_moved,
+        black_king_moved: @board.black_king_moved,
+        black_rook_kingside_moved: @board.black_rook_kingside_moved,
+        black_rook_queenside_moved: @board.black_rook_queenside_moved
       }
       SaveManager.save_game(game_state, file_path)
       return

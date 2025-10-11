@@ -198,6 +198,13 @@ class Board
       end
     end
     board.set_grid(new_grid)
+    board.white_king_moved = hash[:white_king_moved]
+    board.white_rook_kingside_moved = hash[:white_rook_kingside_moved]
+    board.white_rook_queenside_moved = hash[:white_rook_queenside_moved]
+    board.black_king_moved = hash[:black_king_moved]
+    board.black_rook_kingside_moved = hash[:black_rook_kingside_moved]
+    board.black_rook_queenside_moved = hash[:black_rook_queenside_moved]
+
     board
   end
 
