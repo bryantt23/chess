@@ -2,9 +2,12 @@ require_relative 'user_input'
 require_relative 'board'
 require_relative 'parser'
 require_relative 'view'
+require_relative 'save_manager'
 
 class GameEngine
   attr_reader :current_turn
+
+  SAVE_DIR = File.join(__dir__, '..', 'saves')
 
   def initialize(board, view)
     @view = view
@@ -18,11 +21,54 @@ class GameEngine
     play_turn
   end
 
+  def valid_selection?(input, filenames)
+    return false unless input.match?(/^\d+$/) # digits only
+
+    index = input.to_i
+    index >= 1 && index <= filenames.length
+  end
+
+  def welcome
+    @view.welcome
+    loop do
+      filenames = Dir.children(SAVE_DIR)
+      @view.show_new_game_saved_games(filenames)
+      input = gets.chomp
+      if input.downcase == 'n'
+        new_game
+      elsif input.downcase == 'x'
+        puts 'Goodbye!'
+        exit
+      elsif valid_selection?(input, filenames)
+        file_to_load = filenames[input.to_i - 1]
+        game_state_hash = SaveManager.load_game("#{SAVE_DIR}/#{file_to_load}")
+        @current_turn = game_state_hash[:current_turn] == 'white' ? :white : :black
+        @board = Board.from_hash(game_state_hash[:grid])
+        play_turn
+        exit
+      else
+        puts @view.invalid_selection
+      end
+    end
+  end
+
   def play_turn
     @view.show_board(@board.grid)
     @view.show_turn(@current_turn)
     player_move = get_input
+
     return nil if player_move.nil? || player_move.strip.downcase == 'exit'
+
+    if player_move.strip.downcase == 'save'
+      Dir.mkdir(SAVE_DIR) unless Dir.exist?(SAVE_DIR)
+      file_path = File.join(SAVE_DIR, "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.json")
+      game_state = {
+        grid: @board.grid,
+        current_turn: @current_turn
+      }
+      SaveManager.save_game(game_state, file_path)
+      return
+    end
 
     move(player_move)
   end
@@ -64,3 +110,8 @@ class GameEngine
     $stdin.gets&.chomp
   end
 end
+
+# board = Board.new
+# view = View.new
+# game = GameEngine.new(board, view)
+# game.welcome

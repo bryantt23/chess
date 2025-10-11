@@ -30,5 +30,21 @@ class View
 
   def checkmate(player)
     puts "Checkmate! #{player.capitalize} loses."
+  end  
+
+  def invalid_selection
+    "Invalid selection"
+  end
+  
+  def show_new_game_saved_games(saved_games)
+    if saved_games.empty?
+      puts "(N)ew game (no saved games available) or (X) to exit"
+    else
+      lines = ["(N)ew game or choose a saved game, or (X) to exit"]
+      saved_games.each_with_index do |filename, index|
+        lines << "#{index + 1}. #{filename}"
+      end
+      puts lines.join("\n")
+    end
   end
 end

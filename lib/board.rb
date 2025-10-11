@@ -136,6 +136,21 @@ class Board
     end
     false
   end
+
+  def self.from_hash(hash)
+    board = Board.new
+    new_grid = hash.map do |row|
+      row.map do |cell|
+        if cell.nil?
+          nil
+        else
+          Object.const_get(cell[:type]).new(cell[:color].to_sym)
+        end
+      end
+    end
+    board.set_grid(new_grid)
+    board
+  end
 end
 
 # grid = Array.new(8) { Array.new(8) }
