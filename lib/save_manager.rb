@@ -10,7 +10,8 @@ class SaveManager
       white_rook_queenside_moved: game_state[:white_rook_queenside_moved],
       black_king_moved: game_state[:black_king_moved],
       black_rook_kingside_moved: game_state[:black_rook_kingside_moved],
-      black_rook_queenside_moved: game_state[:black_rook_queenside_moved]
+      black_rook_queenside_moved: game_state[:black_rook_queenside_moved],
+      en_passant_target: game_state[:en_passant_target]
     }
 
     json_string = data.to_json

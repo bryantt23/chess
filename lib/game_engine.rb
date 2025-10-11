@@ -70,7 +70,8 @@ class GameEngine
         white_rook_queenside_moved: @board.white_rook_queenside_moved,
         black_king_moved: @board.black_king_moved,
         black_rook_kingside_moved: @board.black_rook_kingside_moved,
-        black_rook_queenside_moved: @board.black_rook_queenside_moved
+        black_rook_queenside_moved: @board.black_rook_queenside_moved,
+        en_passant_target: @board.en_passant_target
       }
       SaveManager.save_game(game_state, file_path)
       return

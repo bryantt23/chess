@@ -19,11 +19,13 @@ class Board
   ].freeze
 
   attr_reader :grid
-  attr_accessor :white_king_moved, :white_rook_kingside_moved,
+  attr_accessor :white_king_moved,
+                :white_rook_kingside_moved,
                 :white_rook_queenside_moved,
                 :black_king_moved,
                 :black_rook_kingside_moved,
-                :black_rook_queenside_moved
+                :black_rook_queenside_moved,
+                :en_passant_target
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
@@ -34,6 +36,7 @@ class Board
     @black_king_moved = false
     @black_rook_kingside_moved = false
     @black_rook_queenside_moved = false
+    @en_passant_target = nil
   end
 
   def set_grid(grid)
@@ -76,7 +79,7 @@ class Board
     piece = @grid[rowFrom][colFrom]
     return :illegal unless piece
 
-    result = piece.valid_move?(from, to, @grid)
+    result = piece.valid_move?(from, to, @grid, @en_passant_target)
 
     if %i[ok capture].include?(result)
       return :illegal if causes_check?(from, to, @grid, piece)
@@ -103,6 +106,24 @@ class Board
         elsif from == [0, 0]
           @black_rook_queenside_moved = true
         end
+      end
+
+      # ✅ Handle en passant capture removal first
+      if piece.is_a?(Pawn) && @en_passant_target && to == @en_passant_target
+        captured_row = piece.color == :white ? rowTo + 1 : rowTo - 1
+        @grid[captured_row][colTo] = nil
+      end
+
+      # Update en passant target for next turn
+      if piece.is_a?(Pawn)
+        if (rowFrom - rowTo).abs == 2
+          middle_row = (rowFrom + rowTo) / 2
+          @en_passant_target = [middle_row, colFrom]
+        else
+          @en_passant_target = nil
+        end
+      elsif @en_passant_target && piece.color == :white && rowTo != 3
+        @en_passant_target = nil
       end
 
       @grid[rowTo][colTo] = piece
@@ -204,6 +225,7 @@ class Board
     board.black_king_moved = hash[:black_king_moved]
     board.black_rook_kingside_moved = hash[:black_rook_kingside_moved]
     board.black_rook_queenside_moved = hash[:black_rook_queenside_moved]
+    board.en_passant_target = hash[:en_passant_target]
 
     board
   end

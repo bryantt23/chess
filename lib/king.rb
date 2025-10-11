@@ -6,7 +6,7 @@ class King < Piece
     @display_name = 'K'
   end
 
-  def valid_move?(from, to, grid = nil)
+  def valid_move?(from, to, grid = nil, _en_passant_target = nil)
     return :illegal if from == to
 
     colFrom = from[1]

@@ -6,7 +6,7 @@ class Rook < Piece
     @display_name = 'R'
   end
 
-  def valid_move?(from, to, grid = nil)
+  def valid_move?(from, to, grid = nil, _en_passant_target = nil)
     return :illegal if from == to
 
     if valid_straight?(from, to)
